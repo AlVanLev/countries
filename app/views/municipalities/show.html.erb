@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @municipality.name %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%state=State.where(id:@municipality.state_id).pluck(:name) %>
+  <%= state[0] %>
+</p>
+
+<%= link_to 'Edit', edit_municipality_path(@municipality) %> |
+<%= link_to 'Back', municipalities_path %>

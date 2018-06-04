@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @country.name %>
+</p>
+
+<h2>States</h2>
+<%if @country.states.any?%>
+<ul>
+  <%@country.states.each do |states|%>
+  <li><%=link_to states, states%></li>
+  <%end%>
+</ul>
+<%else%>
+<p>No Estates registered</p>
+<%end%>
+
+<%= link_to 'Edit', edit_country_path(@country) %> |
+<%= link_to 'Back', countries_path %>
