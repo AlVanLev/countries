@@ -11,12 +11,11 @@
     </tr>
   </thead>
 
-  <tbody>
+  <tbody id="municipalities">
     <% @municipalities.each do |municipality| %>
       <tr>
-        <td><%= municipality.name %></td>
-        <%state=State.where(id:municipality.state_id).pluck(:name) %>
-        <td><%= state[0] %></td>
+        <td><%= municipality %></td>
+        <td><%= state=State.where(id:municipality.state_id).pluck(:name).to_sentence %></td>
         <td><%= link_to 'Show', municipality %></td>
         <td><%= link_to 'Edit', edit_municipality_path(municipality) %></td>
         <td><%= link_to 'Destroy', municipality, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -24,8 +23,58 @@
     <% end %>
   </tbody>
 </table>
+<h2>Inactive Municipalities</h2>
+<table>
+  <tbody>
+    <% @removed_municipalities.each do |municipality| %>
+    <tr>
+      <td><%=municipality%></td>
+    </tr>
+    <%end%>
+  </tbody>
+</table>
 
 <br>
 
 <%= link_to 'New Municipality', new_municipality_path %> |
 <%= link_to 'Back', root_path %>
+<br><br><br>
+<h2>new Municipality</h2>
+<div id="municipality">
+  <label>name</label>
+  <%=text_field(:municipality,:name)%>
+  <label>state</label>
+  <%=collection_select(:municipality, :state_id, State.all, :id, :name)%>
+  <div class="actions">
+    <button onclick="add_municipality();" type="button" name="button">Add new municipality</button>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function add_municipality(){
+    municipality=$('div[id="municipality"] input,select')
+    name=municipality[0].value
+    state=municipality[1].value
+    $.ajax({
+      type:'put',
+      url:'/new_municipality',
+      data:{
+        name:name,
+        state:state
+      },
+      success:function(municipality)
+      {
+        var $row=$(
+          '<tr>'+
+          '<td>'+municipality.name+'</td>'+
+          '<td>'+municipality.state.name+'</td>'+
+          '<td>'+'<a href="municipalities/'+municipality.id+'">'+'Show'+'</a>'+'</td>'+
+          '<td>'+'<a href="municipalities/'+municipality.id+'/edit">'+'Edit'+'</a>'+'</td>'+
+          '<td>'+'<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="municipalities/'+municipality.id+'">'+'Destroy'+'</a>'+'</td>'+
+          '</tr>'
+        );
+        $("#municipalities").append($row);
+      }
+    });
+  }
+</script>

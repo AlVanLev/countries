@@ -4,7 +4,8 @@ class CountriesController < ApplicationController
   # GET /countries
   # GET /countries.json
   def index
-    @countries = Country.all
+    @countries = Country.all.where(active: true)
+    @removed_Countries = Country.all.where(active: false)
   end
 
   # GET /countries/1
@@ -55,10 +56,20 @@ class CountriesController < ApplicationController
   # DELETE /countries/1
   # DELETE /countries/1.json
   def destroy
-    @country.destroy
+    @country.update(active: false)
     respond_to do |format|
-      format.html { redirect_to countries_url, notice: 'Country was successfully destroyed.' }
+      format.html { redirect_to countries_url, notice: 'Country was successfully Removed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def new_country
+    @country=Country.new
+    @country.name=params[:name]
+    @country.save
+    respond_to do |format|
+      format.json { render json: @country }
+      format.js
     end
   end
 
@@ -70,6 +81,6 @@ class CountriesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def country_params
-      params.require(:country).permit(:name, states_attributes: [:id, :name, :_destroy])
+      params.require(:country).permit(:name,:active, states_attributes: [:id, :name, :_destroy])
     end
 end

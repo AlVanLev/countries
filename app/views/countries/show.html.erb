@@ -9,7 +9,7 @@
 <%if @country.states.any?%>
 <ul>
   <%@country.states.each do |states|%>
-  <li><%=link_to states, states%></li>
+  <li><%=link_to states.name, states%></li>
   <%end%>
 </ul>
 <%else%>

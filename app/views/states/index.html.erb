@@ -11,12 +11,11 @@
     </tr>
   </thead>
 
-  <tbody>
+  <tbody id='states'>
     <% @states.each do |state| %>
       <tr>
-        <td><%= state.name %></td>
-        <%country=Country.where(id: state.country_id).pluck(:name) %>
-        <td><%= country[0] %></td>
+        <td><%= state %></td>
+        <td><%= country=Country.where(id: state.country_id).pluck(:name).to_sentence %></td>
         <td><%= link_to 'Show', state %></td>
         <td><%= link_to 'Edit', edit_state_path(state) %></td>
         <td><%= link_to 'Destroy', state, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -24,7 +23,59 @@
     <% end %>
   </tbody>
 </table>
+<h2>Inactive States</h2>
+<table>
+  <tbody>
+    <%@removed_states.each do |state|%>
+    <tr>
+      <td><%=state%></td>
+    </tr>
+    <%end%>
+  </tbody>
+</table>
 <br>
 
 <%= link_to 'New State', new_state_path %> |
 <%= link_to 'Back', root_path %>
+<br><br><br>
+<h2>New State</h2>
+<div id="state">
+<label>name</label>
+<%=text_field(:state, :name)%>
+<label>country</label>
+<%= collection_select(:state, :country_id, Country.all, :id, :name)%>
+<div class="actions">
+  <button onclick="add_state();" type="button" name="button">Add new state</button>
+</div>
+</div>
+
+
+<script type="text/javascript">
+  function add_state(){
+    state=$('div[id="state"] input,select')
+    name=state[0].value
+    country=state[1].value
+    $.ajax(
+      {
+        type:'put',
+        url:'/new_state',
+        data:{
+          name:name,
+          country:country
+        },
+        success:function(state)
+        {
+          var $row=$(
+            '<tr>'+
+            '<td>'+state.name+'</td>'+
+            '<td>'+state.country.name+'</td>'+
+            '<td>'+'<a href="states/'+state.id+'">'+'Show'+'</a>'+'</td>'+
+            '<td>'+'<a href="states/'+state.id+'/edit">'+'Edit'+'</a>'+'</td>'+
+            '<td>'+'<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="states/'+state.id+'">'+'Destroy'+'</a>'+'</td>'+
+            '</tr>'
+          );
+          $("#states").append($row);
+        }
+      });
+    }
+</script>

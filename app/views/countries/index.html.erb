@@ -10,19 +10,66 @@
     </tr>
   </thead>
 
-  <tbody>
+  <tbody id="countries">
     <% @countries.each do |country| %>
       <tr>
-        <td><%= country.name %></td>
+        <td><%= country %></td>
         <td><%= link_to 'Show', country %></td>
         <td><%= link_to 'Edit', edit_country_path(country) %></td>
-        <td><%= link_to 'Destroy', country, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Remove', country, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>
+<h2>Inactive Countries</h2>
+<table>
+  <tbody>
+    <% @removed_Countries.each do |country| %>
+      <tr>
+        <td><%= country %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
 <br>
 
 <%= link_to 'New Country', new_country_path %> |
 <%= link_to 'Back', root_path %>
+<br><br><br>
+<h2>New Country</h2>
+<div id="country">
+  <label>Name:</label>
+  <input id="name" type="text" name="" value="">
+  <div class="actions">
+    <button onclick="add_country();" type="button" name="button">Add new country</button>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function add_country(){
+    country=$('div[id="country"] input')
+    name=country[0].value
+    $.ajax(
+      {
+        type:'put',
+        url:'/new_country',
+        data:{
+          name:name
+        },
+      success: function(country)
+      {
+        var $row=$(
+          '<tr>'+
+          '<td>'+country.name+'</td>'+
+          '<td>'+'<a href="countries/'+country.id+'">'+'Show'+'</a>'+'</td>'+
+          '<td>'+'<a href="countries/'+country.id+'/edit">'+'Edit'+'</a>'+'</td>'+
+          '<td>'+'<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="countries/'+country.id+'">'+'Remove'+'</a>'+'</td>'+
+          '</tr>'
+        );
+        $("#countries").append($row);
+      }
+    });
+  }
+
+</script>

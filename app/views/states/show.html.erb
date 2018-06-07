@@ -11,5 +11,16 @@
   <%= country[0] %>
 </p>
 
+<h2>Municipalities</h2>
+<%if @state.municipalities.any?%>
+<ul>
+  <%@state.municipalities.each do |municipality|%>
+  <li><%=link_to municipality.name, municipality%></li>
+  <%end%>
+</ul>
+<%else%>
+<p>No Municipalities registered</p>
+<%end%>
+
 <%= link_to 'Edit', edit_state_path(@state) %> |
 <%= link_to 'Back', states_path %>

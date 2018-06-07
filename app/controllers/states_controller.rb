@@ -4,7 +4,8 @@ class StatesController < ApplicationController
   # GET /states
   # GET /states.json
   def index
-    @states = State.all
+    @states = State.all.where(active: true)
+    @removed_states = State.all.where(active: false)
   end
 
   # GET /states/1
@@ -16,10 +17,12 @@ class StatesController < ApplicationController
   # GET /states/new
   def new
     @state = State.new
+    @state.municipalities.build
   end
 
   # GET /states/1/edit
   def edit
+    @state.municipalities.build
   end
 
   # POST /states
@@ -55,10 +58,21 @@ class StatesController < ApplicationController
   # DELETE /states/1
   # DELETE /states/1.json
   def destroy
-    @state.destroy
+    @state.update(active: false)
     respond_to do |format|
       format.html { redirect_to states_url, notice: 'State was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def new_state
+    @state=State.new
+    @state.name=params[:name]
+    @state.country_id=params[:country]
+    @state.save
+    respond_to do |format|
+      format.json {render json:@state, :include => {:country => {:only => :name}}}
+      format.js
     end
   end
 
@@ -70,6 +84,7 @@ class StatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def state_params
-      params.require(:state).permit(:name, :country_id)
+      params.require(:state).permit(:name, :country_id, municipalities_attributes: [:id, :name, :_destroy])
     end
+
 end
