@@ -6,6 +6,7 @@ class MunicipalitiesController < ApplicationController
   def index
     @municipalities = Municipality.all.where(active: true)
     @removed_municipalities = Municipality.all.where(active: false)
+    @states = State.all.where(active: true)
   end
 
   # GET /municipalities/1
@@ -55,9 +56,13 @@ class MunicipalitiesController < ApplicationController
   # DELETE /municipalities/1
   # DELETE /municipalities/1.json
   def destroy
-    @municipality.update(active: false)
+    if @municipality.active
+      @municipality.update(active: false)
+    else
+      @municipality.update(active: true)
+    end
     respond_to do |format|
-      format.html { redirect_to municipalities_url, notice: 'Municipality was successfully destroyed.' }
+      format.html { redirect_to municipalities_url, notice: 'Action completed' }
       format.json { head :no_content }
     end
   end

@@ -1,53 +1,84 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Municipalities</h1>
+<h1><i class="far fa-building"></i>  Municipalities</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>State</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<button type="button" name="button" class="btn btn-info" data-toggle="modal" data-target="#new">New Municipality</button>
+<ul class="nav nav-tabs">
+  <br>
+  <li class="active"><a data-toggle="tab" href="#active">Active</a></li>
+  <li><a data-toggle="tab" href="#inactive">Inactive</a></li>
+</ul>
+<div class="tab-content">
+<div id="active" class="tab-pane fade in active">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>State</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
 
-  <tbody id="municipalities">
-    <% @municipalities.each do |municipality| %>
+    <tbody id="municipalities">
+      <% @municipalities.each do |municipality| %>
       <tr>
         <td><%= municipality %></td>
         <td><%= state=State.where(id:municipality.state_id).pluck(:name).to_sentence %></td>
         <td><%= link_to 'Show', municipality %></td>
         <td><%= link_to 'Edit', edit_municipality_path(municipality) %></td>
-        <td><%= link_to 'Destroy', municipality, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Remove', municipality, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-<h2>Inactive Municipalities</h2>
-<table>
-  <tbody>
-    <% @removed_municipalities.each do |municipality| %>
-    <tr>
-      <td><%=municipality%></td>
-    </tr>
-    <%end%>
-  </tbody>
-</table>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<div id="inactive" class="tab-pane fade">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @removed_municipalities.each do |municipality| %>
+      <tr>
+        <td><%=municipality%></td>
+        <td><%= link_to 'Restore', municipality, method: :delete %></td>
+      </tr>
+      <%end%>
+    </tbody>
+  </table>
+</div>
+</div>
 
 <br>
 
 <%= link_to 'New Municipality', new_municipality_path %> |
 <%= link_to 'Back', root_path %>
 <br><br><br>
-<h2>new Municipality</h2>
-<div id="municipality">
-  <label>name</label>
-  <%=text_field(:municipality,:name)%>
-  <label>state</label>
-  <%=collection_select(:municipality, :state_id, State.all, :id, :name)%>
-  <div class="actions">
-    <button onclick="add_municipality();" type="button" name="button">Add new municipality</button>
+<div class="modal fade" id="new" role="dialog">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+  <h3 class="modal-title">new Municipality</h3>
+</div>
+<div class="modal-body">
+  <div id="municipality">
+    <label>name</label>
+    <%=text_field(:municipality,:name)%>
+    <label>state</label>
+    <%=collection_select(:municipality, :state_id, @states, :id, :name)%>
+    <div class="actions">
+      <br>
+      <button onclick="add_municipality();" type="button" name="button" data-dismiss="modal">Add new municipality</button>
+    </div>
   </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
 </div>
 
 <script type="text/javascript">
@@ -70,7 +101,7 @@
           '<td>'+municipality.state.name+'</td>'+
           '<td>'+'<a href="municipalities/'+municipality.id+'">'+'Show'+'</a>'+'</td>'+
           '<td>'+'<a href="municipalities/'+municipality.id+'/edit">'+'Edit'+'</a>'+'</td>'+
-          '<td>'+'<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="municipalities/'+municipality.id+'">'+'Destroy'+'</a>'+'</td>'+
+          '<td>'+'<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="municipalities/'+municipality.id+'">'+'Remove'+'</a>'+'</td>'+
           '</tr>'
         );
         $("#municipalities").append($row);

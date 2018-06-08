@@ -1,6 +1,14 @@
 <p id="notice"><%= notice %></p>
 
-<h1>States</h1>
+<h1><i class="far fa-map"></i>  States</h1>
+<button type="button" name="button" class="btn btn-info" data-toggle="modal" data-target="#new">New State</button>
+<ul class="nav nav-tabs">
+  <br>
+  <li class="active"><a data-toggle="tab" href="#active">Active</a></li>
+  <li><a data-toggle="tab" href="#inactive">Inactive</a></li>
+</ul>
+<div class="tab-content">
+<div id="active" class="tab-pane fade in active">
 
 <table>
   <thead>
@@ -18,34 +26,57 @@
         <td><%= country=Country.where(id: state.country_id).pluck(:name).to_sentence %></td>
         <td><%= link_to 'Show', state %></td>
         <td><%= link_to 'Edit', edit_state_path(state) %></td>
-        <td><%= link_to 'Destroy', state, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Remove', state, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-<h2>Inactive States</h2>
-<table>
-  <tbody>
-    <%@removed_states.each do |state|%>
-    <tr>
-      <td><%=state%></td>
-    </tr>
-    <%end%>
-  </tbody>
-</table>
+</div>
+<div id="inactive" class="tab-pane fade">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@removed_states.each do |state|%>
+      <tr>
+        <td><%=state%></td>
+        <td><%= link_to 'Restore', state, method: :delete%></td>
+      </tr>
+      <%end%>
+    </tbody>
+  </table>
+</div>
+</div>
 <br>
 
 <%= link_to 'New State', new_state_path %> |
 <%= link_to 'Back', root_path %>
 <br><br><br>
-<h2>New State</h2>
-<div id="state">
-<label>name</label>
-<%=text_field(:state, :name)%>
-<label>country</label>
-<%= collection_select(:state, :country_id, Country.all, :id, :name)%>
-<div class="actions">
-  <button onclick="add_state();" type="button" name="button">Add new state</button>
+<div class="modal fade" id="new" role="dialog">
+<div class="modal-dialog">
+<div class="modal-content">
+  <div class="modal-header">
+    <h3 class="modal-title">New State</h3>
+  </div>
+  <div class="modal-body">
+    <div id="state">
+      <label>name</label>
+      <%=text_field(:state, :name)%>
+      <label>country</label>
+      <%= collection_select(:state, :country_id, @country, :id, :name)%>
+      <div class="actions">
+        <br>
+        <button onclick="add_state();" type="button" name="button" data-dismiss="modal">Add new state</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  </div>
+</div>
 </div>
 </div>
 
@@ -71,7 +102,7 @@
             '<td>'+state.country.name+'</td>'+
             '<td>'+'<a href="states/'+state.id+'">'+'Show'+'</a>'+'</td>'+
             '<td>'+'<a href="states/'+state.id+'/edit">'+'Edit'+'</a>'+'</td>'+
-            '<td>'+'<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="states/'+state.id+'">'+'Destroy'+'</a>'+'</td>'+
+            '<td>'+'<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="states/'+state.id+'">'+'Remove'+'</a>'+'</td>'+
             '</tr>'
           );
           $("#states").append($row);

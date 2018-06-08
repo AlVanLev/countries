@@ -1,0 +1,15 @@
+a, .btn-xs{
+  &:hover {
+    text-decoration: none;
+    background-color: #f2f2f2;
+  }
+}
+.center{
+  text-align: center;
+}
+.left{
+  text-align: left;
+}
+.right{
+  text-align: right;
+}

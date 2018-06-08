@@ -56,9 +56,13 @@ class CountriesController < ApplicationController
   # DELETE /countries/1
   # DELETE /countries/1.json
   def destroy
-    @country.update(active: false)
+    if @country.active
+      @country.update(active: false)
+    else
+      @country.update(active: true)
+    end
     respond_to do |format|
-      format.html { redirect_to countries_url, notice: 'Country was successfully Removed.' }
+      format.html { redirect_to countries_url, notice: 'Action completed' }
       format.json { head :no_content }
     end
   end

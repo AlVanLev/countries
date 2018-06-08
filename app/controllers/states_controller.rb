@@ -6,6 +6,7 @@ class StatesController < ApplicationController
   def index
     @states = State.all.where(active: true)
     @removed_states = State.all.where(active: false)
+    @country = Country.all.where(active:true)
   end
 
   # GET /states/1
@@ -58,9 +59,13 @@ class StatesController < ApplicationController
   # DELETE /states/1
   # DELETE /states/1.json
   def destroy
-    @state.update(active: false)
+    if @state.active
+      @state.update(active: false)
+    else
+      @state.update(active: true)
+    end
     respond_to do |format|
-      format.html { redirect_to states_url, notice: 'State was successfully destroyed.' }
+      format.html { redirect_to states_url, notice: 'Action completed' }
       format.json { head :no_content }
     end
   end
