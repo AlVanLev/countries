@@ -24,9 +24,9 @@
       <tr>
         <td><%= municipality %></td>
         <td><%= state=State.where(id:municipality.state_id).pluck(:name).to_sentence %></td>
-        <td><%= link_to 'Show', municipality %></td>
-        <td><%= link_to 'Edit', edit_municipality_path(municipality) %></td>
-        <td><%= link_to 'Remove', municipality, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to raw("<i class='fas fa-search'></i>"), municipality, class:"btn btn-xs", title: "Show" %></td>
+        <td><%= link_to raw("<i class='fas fa-pencil-alt'></i>"), edit_municipality_path(municipality), class:"btn btn-xs", title: "Edit"  %></td>
+        <td><%= link_to raw("<i class='fas fa-trash'></i>"), municipality, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-xs", title: "Remove"  %></td>
       </tr>
       <% end %>
     </tbody>
@@ -43,7 +43,7 @@
       <% @removed_municipalities.each do |municipality| %>
       <tr>
         <td><%=municipality%></td>
-        <td><%= link_to 'Restore', municipality, method: :delete %></td>
+        <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), municipality, method: :delete, class:"btn btn-xs", title: "Restore" %></td>
       </tr>
       <%end%>
     </tbody>
@@ -53,8 +53,8 @@
 
 <br>
 
-<%= link_to 'New Municipality', new_municipality_path %> |
-<%= link_to 'Back', root_path %>
+<%= link_to 'New Municipality', new_municipality_path, class: 'btn btn-xs' %> |
+<%= link_to 'Back', root_path, class: 'btn btn-xs' %>
 <br><br><br>
 <div class="modal fade" id="new" role="dialog">
 <div class="modal-dialog">
@@ -70,12 +70,16 @@
     <%=collection_select(:municipality, :state_id, @states, :id, :name)%>
     <div class="actions">
       <br>
-      <button onclick="add_municipality();" type="button" name="button" data-dismiss="modal">Add new municipality</button>
+      <p class="right">
+        <button onclick="add_municipality();" type="button" name="button" data-dismiss="modal">Add new municipality</button>
+      </p>
     </div>
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  <p class="left">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+  </p>
 </div>
 </div>
 </div>
@@ -99,9 +103,9 @@
           '<tr>'+
           '<td>'+municipality.name+'</td>'+
           '<td>'+municipality.state.name+'</td>'+
-          '<td>'+'<a href="municipalities/'+municipality.id+'">'+'Show'+'</a>'+'</td>'+
-          '<td>'+'<a href="municipalities/'+municipality.id+'/edit">'+'Edit'+'</a>'+'</td>'+
-          '<td>'+'<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="municipalities/'+municipality.id+'">'+'Remove'+'</a>'+'</td>'+
+          '<td>'+'<a class="btn btn-xs" title="Show" href="municipalities/'+municipality.id+'">'+'<i class="fas fa-search"></i>'+'</a>'+'</td>'+
+          '<td>'+'<a class="btn btn-xs" title="Edit" href="municipalities/'+municipality.id+'/edit">'+'<i class="fas fa-pencil-alt"></i>'+'</a>'+'</td>'+
+          '<td>'+'<a class="btn btn-xs" title="Remove" data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="municipalities/'+municipality.id+'">'+'<i class="fas fa-trash"></i>'+'</a>'+'</td>'+
           '</tr>'
         );
         $("#municipalities").append($row);

@@ -40,7 +40,7 @@
   <tbody>
     <% @removed_Countries.each do |country| %>
       <tr>
-        <td><%= country %></td>
+        <td><%= country%></td>
         <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), country, method: :delete, class:"btn btn-xs", title: "Restore" %></td>
       </tr>
     <% end %>
@@ -94,9 +94,9 @@
         var $row=$(
           '<tr>'+
           '<td>'+country.name+'</td>'+
-          '<td>'+'<a href="countries/'+country.id+'">'+'Show'+'</a>'+'</td>'+
-          '<td>'+'<a href="countries/'+country.id+'/edit">'+'Edit'+'</a>'+'</td>'+
-          '<td>'+'<a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="countries/'+country.id+'">'+'Remove'+'</a>'+'</td>'+
+          '<td>'+'<a class="btn btn-xs" title="Show" href="countries/'+country.id+'">'+'<i class="fas fa-search"></i>'+'</a>'+'</td>'+
+          '<td>'+'<a class="btn btn-xs" title="Edit" href="countries/'+country.id+'/edit">'+'<i class="fas fa-pencil-alt"></i>'+'</a>'+'</td>'+
+          '<td>'+'<a class="btn btn-xs" title="Remove" data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="countries/'+country.id+'">'+'<i class="fas fa-trash"></i>'+'</a>'+'</td>'+
           '</tr>'
         );
         $("#countries").append($row);
