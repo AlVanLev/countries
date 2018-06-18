@@ -2,11 +2,12 @@ class StatesController < ApplicationController
   before_action :set_state, only: [:show, :edit, :update, :destroy, :state_active]
   before_action :set_states, only: [:index, :download]
 
+
   # GET /states
   # GET /states.json
   def index
     @removed_states = State.all.where(active: false)
-    @country = Country.all.where(active:true)
+    @countries = Country.all.where(active:true)
   end
 
   # GET /states/1
@@ -113,6 +114,8 @@ class StatesController < ApplicationController
   #Encabezados
   #(fila , columna, encabezado)
   worksheet.write(0, 0, ' State ',header_format)
+  worksheet.write(0, 1, ' Country ',header_format)
+
 
   #Indices
   fila = 1
@@ -121,7 +124,7 @@ class StatesController < ApplicationController
   #Escribe los datos de la bdd
   @states.each do |state|
     worksheet.write(fila, columna       , state.name,data_format )
-
+    worksheet.write(fila, columna+1       , Country.where(id: state.country_id).pluck(:name).to_sentence,data_format )
     #Avanza una fila
     fila += 1
   end

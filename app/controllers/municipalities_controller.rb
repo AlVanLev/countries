@@ -110,6 +110,7 @@ class MunicipalitiesController < ApplicationController
   #Encabezados
   #(fila , columna, encabezado)
   worksheet.write(0, 0, ' Municipality ',header_format)
+  worksheet.write(0, 1, ' State ',header_format)
 
   #Indices
   fila = 1
@@ -118,6 +119,7 @@ class MunicipalitiesController < ApplicationController
   #Escribe los datos de la bdd
   @municipalities.each do |municipality|
     worksheet.write(fila, columna       , municipality.name,data_format  )
+    worksheet.write(fila, columna+1       , State.where(id:municipality.state_id).pluck(:name).to_sentence,data_format  )
 
     #Avanza una fila
     fila += 1

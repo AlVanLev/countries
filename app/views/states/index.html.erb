@@ -54,8 +54,8 @@
 <br>
 
 <%= link_to 'New State', new_state_path, class: 'btn btn-xs'%> |
-<%= link_to 'Back', root_path, class: 'btn btn-xs' %> | 
-<%= link_to 'Excel', download_states_path ,target: '_blank' %>
+<%= link_to 'Back', root_path, class: 'btn btn-xs' %> |
+<%= link_to 'Excel', download_states_path ,target: '_blank', class: 'btn btn-xs' %>
 <br><br><br>
 <div class="modal fade" id="new" role="dialog">
 <div class="modal-dialog">
@@ -68,7 +68,7 @@
       <label>name</label>
       <%=text_field(:state, :name)%>
       <label>country</label>
-      <%= collection_select(:state, :country_id, @country, :id, :name)%>
+      <%= collection_select(:state, :country_id, @countries, :id, :name)%>
       <div class="actions">
         <br>
         <table width="100%">
