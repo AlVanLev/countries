@@ -14,18 +14,29 @@
     <%= form.text_field :name %>
   </div>
   <div class="field">
-    <%= form.collection_select(:country_id, Country.all, :id, :name) %>
+    <%= form.label :country_id, "Select Country" %>
+    <%= form.collection_select(:country_id, @countries, :id, :name) %>
   </div>
-  <%= form.fields_for :municipalities do | municipality | %>
+  <%= form.fields_for :municipalities, form.object.municipalities.where(active: true) do | municipality | %>
   <div class="">
     <div class="fields">
-      <%= municipality.label :name, "Municipality" %><br>
+      <%= municipality.label :name, "Municipality" %>
       <%= municipality.text_field :name %>
       <%= municipality.check_box :_destroy %> Delete
     </div>
   </div>
   <% end %>
+  <%= form.fields_for :municipalities, form.object.municipalities.last do | municipality | %>
+  <div class="">
+    <div class="fields">
+      <br>
+      <%= municipality.label :name, "New Municipality" %>
+      <%= municipality.text_field :name %>
+    </div>
+  </div>
+  <% end %>
   <div class="actions">
+    <br>
     <%= form.submit %>
   </div>
 <% end %>

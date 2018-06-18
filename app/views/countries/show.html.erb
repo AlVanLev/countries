@@ -1,20 +1,23 @@
+<% provide(:title,@country.name) %>
 <p id="notice"><%= notice %></p>
 
 <p>
   <strong>Name:</strong>
   <%= @country.name %>
 </p>
-
-<h2>States</h2>
+<br>
+<h3>States</h3>
 <%if @country.states.any?%>
 <ul>
   <%@country.states.each do |states|%>
-  <li><%=link_to states.name, states%></li>
+    <%if states.active%>
+      <li><%=link_to states.name, states, class: "btn btn-xs"%></li>
+    <%end%>
   <%end%>
 </ul>
 <%else%>
 <p>No Estates registered</p>
 <%end%>
-
-<%= link_to 'Edit', edit_country_path(@country) %> |
-<%= link_to 'Back', countries_path %>
+<br>
+<%= link_to 'Edit', edit_country_path(@country), class: "btn btn-xs" %> |
+<%= link_to 'Back', countries_path, class: "btn btn-xs" %>

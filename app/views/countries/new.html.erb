@@ -1,5 +1,6 @@
+<% provide(:title,"New Country") %>
 <h1>New Country</h1>
 
 <%= render 'form', country: @country %>
 
-<%= link_to 'Back', countries_path %>
+<%= link_to 'Back', countries_path, class: "btn btn-xs" %>

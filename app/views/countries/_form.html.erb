@@ -14,18 +14,26 @@
     <%= form.label :name %>
     <%= form.text_field :name %>
   </div>
-  <%= form.fields_for :states do | state | %>
-  <div class="">
-    <div class="fields">
-      <%= state.label :name, "State" %><br>
-      <%= state.text_field :name %>
-      <%= state.check_box :_destroy %> Delete
-
+  <%= form.fields_for :states, form.object.states.where(active: true) do | state | %>
+    <div class="">
+      <div class="fields">
+        <%= state.label :name, "State" %>
+        <%= state.text_field :name %>
+        <%= state.check_box :_destroy %> Delete
+      </div>
     </div>
-  </div>
   <% end %>
-
+  <%= form.fields_for :states, form.object.states.last do | state | %>
+    <div class="">
+      <div class="fields">
+        <br>
+        <%= state.label :name, "New State" %>
+        <%= state.text_field :name %>
+      </div>
+    </div>
+  <% end %>
   <div class="actions">
+    <br>
     <%= form.submit %>
   </div>
 <% end %>

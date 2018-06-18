@@ -1,7 +1,6 @@
+<% provide(:title,"Municipalities") %>
 <p id="notice"><%= notice %></p>
-
 <h1><i class="far fa-building"></i>  Municipalities</h1>
-
 <button type="button" name="button" class="btn btn-info" data-toggle="modal" data-target="#new">New Municipality</button>
 <ul class="nav nav-tabs">
   <br>
@@ -26,7 +25,7 @@
         <td><%= state=State.where(id:municipality.state_id).pluck(:name).to_sentence %></td>
         <td><%= link_to raw("<i class='fas fa-search'></i>"), municipality, class:"btn btn-xs", title: "Show" %></td>
         <td><%= link_to raw("<i class='fas fa-pencil-alt'></i>"), edit_municipality_path(municipality), class:"btn btn-xs", title: "Edit"  %></td>
-        <td><%= link_to raw("<i class='fas fa-trash'></i>"), municipality, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-xs", title: "Remove"  %></td>
+        <td><%= link_to raw("<i class='fas fa-trash'></i>"), municipality_active_url(municipality), method: :put, class:"btn btn-xs", title: "Remove"  %></td>
       </tr>
       <% end %>
     </tbody>
@@ -43,7 +42,8 @@
       <% @removed_municipalities.each do |municipality| %>
       <tr>
         <td><%=municipality%></td>
-        <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), municipality, method: :delete, class:"btn btn-xs", title: "Restore" %></td>
+        <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), municipality_active_url(municipality), method: :put, class:"btn btn-xs", title: "Restore" %></td>
+        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), municipality, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-xs", title: "Remove" %></td>
       </tr>
       <%end%>
     </tbody>
@@ -54,7 +54,8 @@
 <br>
 
 <%= link_to 'New Municipality', new_municipality_path, class: 'btn btn-xs' %> |
-<%= link_to 'Back', root_path, class: 'btn btn-xs' %>
+<%= link_to 'Back', root_path, class: 'btn btn-xs' %> | 
+<%= link_to 'Excel', download_municipalities_path ,target: '_blank' %>
 <br><br><br>
 <div class="modal fade" id="new" role="dialog">
 <div class="modal-dialog">
@@ -70,22 +71,33 @@
     <%=collection_select(:municipality, :state_id, @states, :id, :name)%>
     <div class="actions">
       <br>
-      <p class="right">
-        <button onclick="add_municipality();" type="button" name="button" data-dismiss="modal">Add new municipality</button>
-      </p>
+      <table width="100%">
+        <tr>
+          <td width="50%">
+            <p class="left">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </p>
+          </td>
+          <td width="50%">
+            <p class="right">
+              <button onclick="add_municipality();" type="button" name="button" data-dismiss="modal">Add new municipality</button>
+            </p>
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
-</div>
-<div class="modal-footer">
-  <p class="left">
-    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-  </p>
 </div>
 </div>
 </div>
 </div>
 
 <script type="text/javascript">
+$("input[id='municipality_name']").keydown(function(event){
+  if (event.which >47 && event.which < 58 || event.which >95 && event.which < 106){
+      return false;
+    }
+  });
   function add_municipality(){
     municipality=$('div[id="municipality"] input,select')
     name=municipality[0].value
@@ -105,7 +117,7 @@
           '<td>'+municipality.state.name+'</td>'+
           '<td>'+'<a class="btn btn-xs" title="Show" href="municipalities/'+municipality.id+'">'+'<i class="fas fa-search"></i>'+'</a>'+'</td>'+
           '<td>'+'<a class="btn btn-xs" title="Edit" href="municipalities/'+municipality.id+'/edit">'+'<i class="fas fa-pencil-alt"></i>'+'</a>'+'</td>'+
-          '<td>'+'<a class="btn btn-xs" title="Remove" data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="municipalities/'+municipality.id+'">'+'<i class="fas fa-trash"></i>'+'</a>'+'</td>'+
+          '<td>'+'<a class="btn btn-xs" title="Remove" data-confirm="Are you sure?" rel="nofollow" data-method="put" href="state_active/'+municipality.id+'">'+'<i class="fas fa-trash"></i>'+'</a>'+'</td>'+
           '</tr>'
         );
         $("#municipalities").append($row);

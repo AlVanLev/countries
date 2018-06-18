@@ -17,7 +17,8 @@
   </div>
 
   <div class="field">
-    <%= form.collection_select(:state_id, State.all, :id, :name) %>
+    <%= form.label :state_id, "Select State" %>
+    <%= form.collection_select(:state_id, @states, :id, :name) %>
   </div>
 
   <div class="actions">

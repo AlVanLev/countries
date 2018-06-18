@@ -189,8 +189,13 @@ GEM
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
+    write_xlsx (0.85.5)
+      rubyzip (>= 1.0.0)
+      zip-zip
     xpath (3.1.0)
       nokogiri (~> 1.8)
+    zip-zip (0.3)
+      rubyzip (>= 1.0.0)
 
 PLATFORMS
   ruby
@@ -215,6 +220,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
+  write_xlsx
 
 RUBY VERSION
    ruby 2.4.1p111

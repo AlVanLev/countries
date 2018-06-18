@@ -1,5 +1,6 @@
+<% provide(:title,"New Municipality") %>
 <h1>New Municipality</h1>
 
 <%= render 'form', municipality: @municipality %>
 
-<%= link_to 'Back', municipalities_path %>
+<%= link_to 'Back', municipalities_path, class: "btn btn-xs" %>
