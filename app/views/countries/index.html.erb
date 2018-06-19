@@ -38,10 +38,20 @@
   </thead>
   <tbody>
     <% @removed_Countries.each do |country| %>
+    <%stateWarning=""%>
+    <%states=(State.where(country_id:country.id).pluck(:name))%>
+    <%if states.length > 0%>
+      <%stateWarning='Deleting this country will also delete these states:'+"\n"%>
+      <%states.each do |state|%>
+        <%stateWarning+="\n   "+state%>
+      <%end%>
+      <%stateWarning+="\n\nAnd their respective municipalities."%>
+    <%end%>
+    <%message='About to delete the country '+country.name+' Are you sure?'+"\n\n"+stateWarning%>
       <tr>
         <td><%= country%></td>
         <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"),country_active_path(country), method: :put, class:"btn btn-xs", title: "Restore" %></td>
-        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), country, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-xs", title: "Remove" %></td>
+        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), country, method: :delete, data: { confirm: message }, class:"btn btn-xs", title: "Remove" %></td>
       </tr>
     <% end %>
   </tbody>

@@ -6,7 +6,7 @@ class MunicipalitiesController < ApplicationController
   # GET /municipalities.json
   def index
     @removed_municipalities = Municipality.all.where(active: false)
-    @states = State.all.where(active: true)
+    @states = State.all.where(active: true,country_id:Country.where(active:true).pluck(:id))
   end
 
   # GET /municipalities/1
