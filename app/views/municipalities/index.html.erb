@@ -6,7 +6,6 @@
   <br>
   <li class="active"><a data-toggle="tab" href="#active">Active</a></li>
   <li><a data-toggle="tab" href="#inactive">Inactive</a></li>
-  <li><a data-toggle="tab" href="#hidden">Hidden</a></li>
 </ul>
 <div class="tab-content">
 <div id="active" class="tab-pane fade in active">
@@ -44,32 +43,21 @@
     </thead>
     <tbody>
       <% @removed_municipalities.each do |municipality| %>
+      <%message='About to delete the municipality '+municipality.name+' Are you sure?'%>
       <tr>
         <td><%=municipality%></td>
         <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), municipality_active_url(municipality), method: :put, class:"btn btn-xs", title: "Restore" %></td>
-        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), municipality, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-xs", title: "Remove" %></td>
+        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), municipality, method: :delete, data: { confirm: message }, class:"btn btn-xs", title: "Remove" %></td>
       </tr>
       <%end%>
-    </tbody>
-  </table>
-</div>
-<div id="hidden" class="tab-pane fade">
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-      </tr>
-    </thead>
-    <tbody>
       <% @municipalities.each do |municipality| %>
+      <%message='About to delete the municipality '+municipality.name+' Are you sure?'%>
       <%state=State.where(id:municipality.state_id,active:true,country_id:Country.where(active:true).pluck(:id)).pluck(:name).to_sentence%>
       <%if state==""%>
       <tr>
         <td><%= municipality %></td>
-        <td><%= state=State.where(id:municipality.state_id).pluck(:name).to_sentence %></td>
-        <td><%= link_to raw("<i class='fas fa-search'></i>"), municipality, class:"btn btn-xs", title: "Show" %></td>
-        <td><%= link_to raw("<i class='fas fa-pencil-alt'></i>"), edit_municipality_path(municipality), class:"btn btn-xs", title: "Edit"  %></td>
-        <td><%= link_to raw("<i class='fas fa-trash'></i>"), municipality_active_url(municipality), method: :put, class:"btn btn-xs", title: "Remove"  %></td>
+        <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), municipality_active_url(municipality), method: :put, class:"btn btn-xs", title: "Restore" %></td>
+        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), municipality, method: :delete, data: { confirm: message }, class:"btn btn-xs", title: "Remove" %></td>
       </tr>
       <%end%>
       <% end %>

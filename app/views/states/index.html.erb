@@ -6,7 +6,6 @@
   <br>
   <li class="active"><a data-toggle="tab" href="#active">Active</a></li>
   <li><a data-toggle="tab" href="#inactive">Inactive</a></li>
-  <li><a data-toggle="tab" href="#hidden">Hidden</a></li>
 </ul>
 <div class="tab-content">
 <div id="active" class="tab-pane fade in active">
@@ -48,10 +47,10 @@
       <%municipalityWarning=""%>
       <%municipalities=(Municipality.where(state_id:state.id).pluck(:name))%>
       <%if municipalities.length > 0%>
-        <%municipalityWarning='Deleting this state will also delete these municipalities:'+"\n"%>
-        <%municipalities.each do |municipality|%>
-          <%municipalityWarning+="\n   "+municipality%>
-        <%end%>
+      <%municipalityWarning='Deleting this state will also delete these municipalities:'+"\n"%>
+      <%municipalities.each do |municipality|%>
+      <%municipalityWarning+="\n   "+municipality%>
+      <%end%>
       <%end%>
       <%message='About to delete the state '+state.name+' Are you sure?'+"\n\n"+municipalityWarning%>
       <tr>
@@ -60,27 +59,22 @@
         <td><%= link_to raw("<i class='fas fa-unlink'></i>"), state, method: :delete, data: { confirm: message }, class:"btn btn-xs", title: "Remove" %></td>
       </tr>
       <%end%>
-    </tbody>
-  </table>
-</div>
-<div id="hidden" class="tab-pane fade">
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Country</th>
-      </tr>
-    </thead>
-    <tbody>
       <% @states.each do |state| %>
+      <%municipalityWarning=""%>
+      <%municipalities=(Municipality.where(state_id:state.id).pluck(:name))%>
+      <%if municipalities.length > 0%>
+      <%municipalityWarning='Deleting this state will also delete these municipalities:'+"\n"%>
+      <%municipalities.each do |municipality|%>
+      <%municipalityWarning+="\n   "+municipality%>
+      <%end%>
+      <%end%>
+      <%message='About to delete the state '+state.name+' Are you sure?'+"\n\n"+municipalityWarning%>
       <% country=Country.where(id: state.country_id, active:false).pluck(:name).to_sentence %>
       <%if country!="" %>
         <tr>
           <td><%= state %></td>
-          <td><%= country %></td>
-          <td><%= link_to raw("<i class='fas fa-search'></i>"),  state, class:"btn btn-xs", title: "Show" %></td>
-          <td><%= link_to raw("<i class='fas fa-pencil-alt'></i>"),  edit_state_path(state), class:"btn btn-xs", title: "Edit"  %></td>
-          <td><%= link_to raw("<i class='fas fa-trash'></i>"),  state_active_path(state), method: :put, class:"btn btn-xs", title: "Remove"  %></td>
+          <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), state_active_path(state), method: :put, class:"btn btn-xs", title: "Restore"%></td>
+          <td><%= link_to raw("<i class='fas fa-unlink'></i>"), state, method: :delete, data: { confirm: message }, class:"btn btn-xs", title: "Remove" %></td>
         </tr>
         <%end%>
       <% end %>
