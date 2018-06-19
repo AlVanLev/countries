@@ -1,0 +1,68 @@
+<div class="modal fade" id="new" role="dialog">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+  <h3 class="modal-title">new Municipality</h3>
+</div>
+<div class="modal-body">
+  <div id="municipality">
+    <label>name</label>
+    <%=text_field(:municipality,:name)%>
+    <label>state</label>
+    <%=collection_select(:municipality, :state_id, @states, :id, :name)%>
+    <div class="actions">
+      <br>
+      <table width="100%">
+        <tr>
+          <td width="50%">
+            <p class="left">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </p>
+          </td>
+          <td width="50%">
+            <p class="right">
+              <button onclick="add_municipality();" type="button" name="button" data-dismiss="modal">Add new municipality</button>
+            </p>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+$("input[id='municipality_name']").keydown(function(event){
+  if (event.which >47 && event.which < 58 || event.which >95 && event.which < 106){
+      return false;
+    }
+  });
+  function add_municipality(){
+    municipality=$('div[id="municipality"] input,select')
+    name=municipality[0].value
+    state=municipality[1].value
+    $.ajax({
+      type:'put',
+      url:'/new_municipality',
+      data:{
+        name:name,
+        state:state
+      },
+      success:function(municipality)
+      {
+        var $row=$(
+          '<tr>'+
+          '<td>'+municipality.name+'</td>'+
+          '<td>'+municipality.state.name+'</td>'+
+          '<td>'+'<a class="btn btn-xs" title="Show" href="municipalities/'+municipality.id+'">'+'<i class="fas fa-search"></i>'+'</a>'+'</td>'+
+          '<td>'+'<a class="btn btn-xs" title="Edit" href="municipalities/'+municipality.id+'/edit">'+'<i class="fas fa-pencil-alt"></i>'+'</a>'+'</td>'+
+          '<td>'+'<a class="btn btn-xs" title="Remove" data-confirm="Are you sure?" rel="nofollow" data-method="put" href="state_active/'+municipality.id+'">'+'<i class="fas fa-trash"></i>'+'</a>'+'</td>'+
+          '</tr>'
+        );
+        $("#municipalities").append($row);
+      }
+    });
+  }
+</script>
