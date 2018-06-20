@@ -1,17 +1,14 @@
 <% provide(:title,@state.name) %>
 <p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @state.name %>
-</p>
-
-<p>
-  <strong>Country:</strong>
-  <%country=Country.where(id: @state.country_id).pluck(:name) %>
-  <%= country[0] %>
-</p>
-<br>
+<h2>
+  <strong>Name:  </strong>
+  <%= @state.name %><br>
+  <small>
+      <strong>Country:</strong>
+      <%country=Country.where(id: @state.country_id).pluck(:name) %>
+      <%= country[0] %>
+  </small>
+</h2>
 <h3>Municipalities</h3>
 <%if @state.municipalities.any?%>
 <ul>

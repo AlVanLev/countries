@@ -1,7 +1,10 @@
+.body{
+  margin: 0px;
+}
 a, .btn-xs, .btn-lg{
   &:hover {
     text-decoration: none;
-    background-color: #f2f2f2;
+    background-color: #DDD;
   }
 }
 .center{
@@ -14,16 +17,30 @@ a, .btn-xs, .btn-lg{
   text-align: right;
 }
 .main{
-  padding-top: 30px;
+  padding-top: 55px;
 }
 li{
   a{
     font-weight: bold;
+    color: #7777AA;
   }
 }
 th{
-  color: #008857;
+  color: #5588ff;
 }
-.form-control{
-  width: 40%;
+.active{
+  a,a:visited{
+    color: #295;
+  }
+}
+.inactive{
+  a,a:visited{
+    color: #6B3;
+  }
+}
+.modal-body{
+  .form-control,label{
+    margin-left: 25%;
+    width: 50%;
+  }
 }

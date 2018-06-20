@@ -1,16 +1,15 @@
 <% provide(:title,@municipality.name) %>
 <p id="notice"><%= notice %></p>
+<h2>
+  <strong>Name:  </strong>
+  <%= @municipality.name %><br>
+  <small>
+    <strong>State:</strong>
+    <%state=State.where(id:@municipality.state_id).pluck(:name) %>
+    <%= state[0] %>
+  </small>
+</h2>
 
-<p>
-  <strong>Name:</strong>
-  <%= @municipality.name %>
-</p>
-
-<p>
-  <strong>State:</strong>
-  <%state=State.where(id:@municipality.state_id).pluck(:name) %>
-  <%= state[0] %>
-</p>
 <br>
 <%= link_to 'Edit', edit_municipality_path(@municipality), class: "btn btn-xs" %> |
 <%= link_to 'Back', municipalities_path, class: "btn btn-xs" %>

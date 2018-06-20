@@ -9,19 +9,19 @@
     <label>name</label>
     <%=text_field(:municipality,:name, class: 'form-control')%>
     <label>state</label>
-    <%=collection_select(:municipality, :state_id, @states, :id, :name, class: 'form-control')%>
+    <%=collection_select(:municipality, :state_id, @states, :id, :name,{promp:''}, {class: 'form-control'})%>
     <div class="actions">
       <br>
       <table width="100%">
         <tr>
           <td width="50%">
             <p class="left">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
             </p>
           </td>
           <td width="50%">
             <p class="right">
-              <button onclick="add_municipality();" type="button" name="button" data-dismiss="modal" class="btn btn-success">Add new municipality</button>
+              <button onclick="add_municipality();" type="button" name="button" data-dismiss="modal" class="btn btn-success btn-sm">Add new municipality</button>
             </p>
           </td>
         </tr>

@@ -15,11 +15,12 @@
   </div>
   <div class="field">
     <%= form.label :country_id, "Select Country" %>
-    <%= form.collection_select(:country_id, @countries, :id, :name) %>
+    <%= form.collection_select(:country_id, @countries, :id, :name,{promp:''}, {class: 'form-control'}) %>
   </div>
   <%= form.fields_for :municipalities, form.object.municipalities.where(active: true) do | municipality | %>
   <div class="">
     <div class="fields">
+      <br>
       <%= municipality.label :name, "Municipality" %>
       <%= municipality.text_field :name, class:"form-control" %>
       <%= municipality.check_box :_destroy %> Delete
@@ -37,6 +38,6 @@
   <% end %>
   <div class="actions">
     <br>
-    <%= form.submit class:"btn btn-info"%>
+    <%= form.submit class:"btn btn-info btn-sm"%>
   </div>
 <% end %>

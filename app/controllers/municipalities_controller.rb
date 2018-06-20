@@ -1,12 +1,12 @@
 class MunicipalitiesController < ApplicationController
   before_action :set_municipality, only: [:show, :edit, :update, :destroy, :municipality_active]
   before_action :set_municipalities, only: [:index, :download]
+  before_action :set_states, only:[:new,:edit,:index]
 
   # GET /municipalities
   # GET /municipalities.json
   def index
     @removed_municipalities = Municipality.all.where(active: false)
-    @states = State.all.where(active: true,country_id:Country.where(active:true).pluck(:id))
   end
 
   # GET /municipalities/1
@@ -17,12 +17,10 @@ class MunicipalitiesController < ApplicationController
   # GET /municipalities/new
   def new
     @municipality = Municipality.new
-    @states = State.all.where(active: true)
   end
 
   # GET /municipalities/1/edit
   def edit
-    @states = State.all.where(active: true)
   end
 
   # POST /municipalities
@@ -145,6 +143,10 @@ class MunicipalitiesController < ApplicationController
 
     def set_municipalities
       @municipalities = Municipality.all.where(active: true)
+    end
+
+    def set_states
+      @states = State.all.where(active:true,country_id:Country.all.where(active:true).pluck(:id))
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

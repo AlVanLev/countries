@@ -17,6 +17,7 @@
   <%= form.fields_for :states, form.object.states.where(active: true) do | state | %>
     <div class="">
       <div class="fields">
+        <br>
         <%= state.label :name, "State" %>
         <%= state.text_field :name, class:"form-control" %>
         <%= state.check_box :_destroy %> Delete
@@ -34,6 +35,6 @@
   <% end %>
   <div class="actions">
     <br>
-    <%= form.submit class:"btn btn-info"%>
+    <%= form.submit class:"btn btn-info btn-sm"%>
   </div>
 <% end %>

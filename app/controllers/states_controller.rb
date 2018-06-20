@@ -1,13 +1,12 @@
 class StatesController < ApplicationController
   before_action :set_state, only: [:show, :edit, :update, :destroy, :state_active]
   before_action :set_states, only: [:index, :download]
-
+  before_action :set_countries, only:[:new,:edit,:index]
 
   # GET /states
   # GET /states.json
   def index
     @removed_states = State.all.where(active: false)
-    @countries = Country.all.where(active:true)
   end
 
   # GET /states/1
@@ -19,21 +18,18 @@ class StatesController < ApplicationController
   # GET /states/new
   def new
     @state = State.new
-    @countries = Country.all.where(active: true)
     @state.municipalities.build
   end
 
   # GET /states/1/edit
   def edit
     @state.municipalities.build
-    @countries = Country.all.where(active: true)
   end
 
   # POST /states
   # POST /states.json
   def create
     @state = State.new(state_params)
-
     respond_to do |format|
       if @state.save
         format.html { redirect_to @state, notice: 'State was successfully created.' }
@@ -149,6 +145,10 @@ class StatesController < ApplicationController
 
     def set_states
       @states = State.all.where(active: true)
+    end
+
+    def set_countries
+      @countries = Country.all.where(active: true)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

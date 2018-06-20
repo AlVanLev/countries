@@ -1,11 +1,9 @@
 <% provide(:title,@country.name) %>
 <p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Name:</strong>
+<h2>
+  <strong>Name:  </strong>
   <%= @country.name %>
-</p>
-<br>
+</h2>
 <h3>States</h3>
 <%if @country.states.any?%>
 <ul>
