@@ -9,7 +9,7 @@
       <label>name</label>
       <%=text_field(:state, :name, class: 'form-control') %>
       <label>country</label>
-      <%= collection_select(:state, :country_id, @countries, :id, :name)%>
+      <%= collection_select(:state, :country_id, @countries, :id, :name , class: 'form-control')%>
       <div class="actions">
         <br>
         <table width="100%">
