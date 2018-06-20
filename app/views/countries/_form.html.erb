@@ -12,13 +12,13 @@
 
   <div class="field">
     <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, class:"form-control" %>
   </div>
   <%= form.fields_for :states, form.object.states.where(active: true) do | state | %>
     <div class="">
       <div class="fields">
         <%= state.label :name, "State" %>
-        <%= state.text_field :name %>
+        <%= state.text_field :name, class:"form-control" %>
         <%= state.check_box :_destroy %> Delete
       </div>
     </div>
@@ -28,7 +28,7 @@
       <div class="fields">
         <br>
         <%= state.label :name, "New State" %>
-        <%= state.text_field :name %>
+        <%= state.text_field :name, class:"form-control" %>
       </div>
     </div>
   <% end %>

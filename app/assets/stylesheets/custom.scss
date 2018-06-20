@@ -14,5 +14,16 @@ a, .btn-xs, .btn-lg{
   text-align: right;
 }
 .main{
-  padding-top: 60px;
+  padding-top: 30px;
+}
+li{
+  a{
+    font-weight: bold;
+  }
+}
+th{
+  color: #008857;
+}
+.form-control{
+  width: 40%;
 }

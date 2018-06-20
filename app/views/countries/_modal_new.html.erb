@@ -7,7 +7,7 @@
   <div class="modal-body">
     <div id="country">
       <label>Name:</label>
-      <input id="name" type="text" name="" value="">
+      <input id="name" type="text" name="" value="" class="form-control">
       <div class="actions">
         <br>
         <table width="100%">
@@ -19,7 +19,7 @@
             </td>
             <td width="50%">
               <p class="right">
-                <button onclick="add_country();" type="button" name="button" data-dismiss="modal">Add new country</button>
+                <button onclick="add_country();" type="button" name="button" data-dismiss="modal" class="btn btn-success">Add new country</button>
               </p>
             </td>
           </tr>
@@ -51,9 +51,9 @@ function add_country(){
       var $row=$(
         '<tr>'+
         '<td>'+country.name+'</td>'+
-        '<td>'+'<a class="btn btn-xs" title="Show" href="countries/'+country.id+'">'+'<i class="fas fa-search"></i>'+'</a>'+'</td>'+
-        '<td>'+'<a class="btn btn-xs" title="Edit" href="countries/'+country.id+'/edit">'+'<i class="fas fa-pencil-alt"></i>'+'</a>'+'</td>'+
-        '<td>'+'<a class="btn btn-xs" title="Remove" data-confirm="Are you sure?" rel="nofollow" data-method="put" href="country_active/'+country.id+'">'+'<i class="fas fa-trash"></i>'+'</a>'+'</td>'+
+        '<td>'+'<a class="btn btn-xs btn-block" title="Show" href="countries/'+country.id+'">'+'<i class="fas fa-search"></i>'+'</a>'+'</td>'+
+        '<td>'+'<a class="btn btn-xs btn-block" title="Edit" href="countries/'+country.id+'/edit">'+'<i class="fas fa-pencil-alt"></i>'+'</a>'+'</td>'+
+        '<td>'+'<a class="btn btn-xs btn-block" title="Remove" data-confirm="Are you sure?" rel="nofollow" data-method="put" href="country_active/'+country.id+'">'+'<i class="fas fa-trash"></i>'+'</a>'+'</td>'+
         '</tr>'
       );
       $("#countries").append($row);

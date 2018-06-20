@@ -9,12 +9,12 @@
 </ul>
 <div class="tab-content">
 <div id="active" class="tab-pane fade in active">
-  <table>
+  <table class="table">
     <thead>
       <tr>
         <th>Name</th>
         <th>State</th>
-        <th colspan="3"></th>
+        <th colspan="3" class="center">Actions</th>
       </tr>
     </thead>
 
@@ -25,9 +25,9 @@
       <tr>
         <td><%= municipality %></td>
         <td><%= state %></td>
-        <td><%= link_to raw("<i class='fas fa-search'></i>"), municipality, class:"btn btn-xs", title: "Show" %></td>
-        <td><%= link_to raw("<i class='fas fa-pencil-alt'></i>"), edit_municipality_path(municipality), class:"btn btn-xs", title: "Edit"  %></td>
-        <td><%= link_to raw("<i class='fas fa-trash'></i>"), municipality_active_url(municipality), method: :put, class:"btn btn-xs", title: "Remove"  %></td>
+        <td><%= link_to raw("<i class='fas fa-search'></i>"), municipality, class:"btn btn-xs btn-block", title: "Show" %></td>
+        <td><%= link_to raw("<i class='fas fa-pencil-alt'></i>"), edit_municipality_path(municipality), class:"btn btn-xs btn-block", title: "Edit"  %></td>
+        <td><%= link_to raw("<i class='fas fa-trash'></i>"), municipality_active_url(municipality), method: :put, class:"btn btn-xs btn-block", title: "Remove"  %></td>
       </tr>
       <%end%>
       <% end %>
@@ -35,10 +35,11 @@
   </table>
 </div>
 <div id="inactive" class="tab-pane fade">
-  <table>
+  <table class="table">
     <thead>
       <tr>
         <th>Name</th>
+        <th colspan="2" class="center">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -46,8 +47,8 @@
       <%message='About to delete the municipality '+municipality.name+' Are you sure?'%>
       <tr>
         <td><%=municipality%></td>
-        <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), municipality_active_url(municipality), method: :put, class:"btn btn-xs", title: "Restore" %></td>
-        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), municipality, method: :delete, data: { confirm: message }, class:"btn btn-xs", title: "Remove" %></td>
+        <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), municipality_active_url(municipality), method: :put, class:"btn btn-xs btn-block", title: "Restore" %></td>
+        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), municipality, method: :delete, data: { confirm: message }, class:"btn btn-xs btn-block", title: "Remove" %></td>
       </tr>
       <%end%>
       <% @municipalities.each do |municipality| %>
@@ -56,8 +57,8 @@
       <%if state==""%>
       <tr>
         <td><%= municipality %></td>
-        <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), municipality_active_url(municipality), method: :put, class:"btn btn-xs", title: "Restore" %></td>
-        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), municipality, method: :delete, data: { confirm: message }, class:"btn btn-xs", title: "Remove" %></td>
+        <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), municipality_active_url(municipality), method: :put, class:"btn btn-xs btn-block", title: "Restore" %></td>
+        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), municipality, method: :delete, data: { confirm: message }, class:"btn btn-xs btn-block", title: "Remove" %></td>
       </tr>
       <%end%>
       <% end %>

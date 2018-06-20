@@ -11,7 +11,7 @@
   <% end %>
   <div class="field">
     <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, class:"form-control" %>
   </div>
   <div class="field">
     <%= form.label :country_id, "Select Country" %>
@@ -21,7 +21,7 @@
   <div class="">
     <div class="fields">
       <%= municipality.label :name, "Municipality" %>
-      <%= municipality.text_field :name %>
+      <%= municipality.text_field :name, class:"form-control" %>
       <%= municipality.check_box :_destroy %> Delete
     </div>
   </div>
@@ -31,12 +31,12 @@
     <div class="fields">
       <br>
       <%= municipality.label :name, "New Municipality" %>
-      <%= municipality.text_field :name %>
+      <%= municipality.text_field :name, class:"form-control" %>
     </div>
   </div>
   <% end %>
   <div class="actions">
     <br>
-    <%= form.submit %>
+    <%= form.submit%>
   </div>
 <% end %>

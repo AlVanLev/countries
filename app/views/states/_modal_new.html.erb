@@ -7,7 +7,7 @@
   <div class="modal-body">
     <div id="state">
       <label>name</label>
-      <%=text_field(:state, :name)%>
+      <%=text_field(:state, :name, class: 'form-control') %>
       <label>country</label>
       <%= collection_select(:state, :country_id, @countries, :id, :name)%>
       <div class="actions">
@@ -21,7 +21,7 @@
             </td>
             <td width="50%">
               <p class="right">
-                <button onclick="add_state();" type="button" name="button" data-dismiss="modal">Add new state</button>
+                <button onclick="add_state();" type="button" name="button" data-dismiss="modal" class="btn btn-success">Add new state</button>
               </p>
             </td>
           </tr>
@@ -58,9 +58,9 @@
             '<tr>'+
             '<td>'+state.name+'</td>'+
             '<td>'+state.country.name+'</td>'+
-            '<td>'+'<a class="btn btn-xs" title="Show" href="states/'+state.id+'">'+'<i class="fas fa-search"></i>'+'</a>'+'</td>'+
-            '<td>'+'<a class="btn btn-xs" title="Edit" href="states/'+state.id+'/edit">'+'<i class="fas fa-pencil-alt"></i>'+'</a>'+'</td>'+
-            '<td>'+'<a class="btn btn-xs" title="Remove" data-confirm="Are you sure?" rel="nofollow" data-method="put" href="state_active/'+state.id+'">'+'<i class="fas fa-trash"></i>'+'</a>'+'</td>'+
+            '<td>'+'<a class="btn btn-xs btn-block" title="Show" href="states/'+state.id+'">'+'<i class="fas fa-search"></i>'+'</a>'+'</td>'+
+            '<td>'+'<a class="btn btn-xs btn-block" title="Edit" href="states/'+state.id+'/edit">'+'<i class="fas fa-pencil-alt"></i>'+'</a>'+'</td>'+
+            '<td>'+'<a class="btn btn-xs btn-block" title="Remove" data-confirm="Are you sure?" rel="nofollow" data-method="put" href="state_active/'+state.id+'">'+'<i class="fas fa-trash"></i>'+'</a>'+'</td>'+
             '</tr>'
           );
           $("#states").append($row);

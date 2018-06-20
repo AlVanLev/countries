@@ -10,30 +10,31 @@
 
 <div class="tab-content">
   <div id="active" class="tab-pane fade in active">
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Name</th>
-      <th colspan="3"></th>
+      <th colspan="3" class="center">Actions</th>
     </tr>
   </thead>
   <tbody id="countries">
     <% @countries.each do |country| %>
       <tr>
         <td><%= country %></td>
-        <td><%= link_to raw("<i class='fas fa-search'></i>"), country, class:"btn btn-xs", title: "Show"%></td>
-        <td><%= link_to raw("<i class='fas fa-pencil-alt'></i>"), edit_country_path(country), class:"btn btn-xs", title: "Edit" %></td>
-        <td><%= link_to raw("<i class='fas fa-trash'></i>"), country_active_path(country), method: :put, data: { confirm: 'Are you sure?' }, class:"btn btn-xs", title: "Remove" %></td>
+        <td><%= link_to raw("<i class='fas fa-search'></i>"), country, class:"btn btn-xs btn-block", title: "Show"%></td>
+        <td><%= link_to raw("<i class='fas fa-pencil-alt'></i>"), edit_country_path(country), class:"btn btn-xs btn-block", title: "Edit" %></td>
+        <td><%= link_to raw("<i class='fas fa-trash'></i>"), country_active_path(country), method: :put, data: { confirm: 'Are you sure?' }, class:"btn btn-xs btn-block", title: "Remove" %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 </div>
 <div id="inactive" class="tab-pane fade">
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Name</th>
+      <th colspan="2" class="center">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -50,8 +51,8 @@
     <%message='About to delete the country '+country.name+' Are you sure?'+"\n\n"+stateWarning%>
       <tr>
         <td><%= country%></td>
-        <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"),country_active_path(country), method: :put, class:"btn btn-xs", title: "Restore" %></td>
-        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), country, method: :delete, data: { confirm: message }, class:"btn btn-xs", title: "Remove" %></td>
+        <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"),country_active_path(country), method: :put, class:"btn btn-xs btn-block", title: "Restore" %></td>
+        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), country, method: :delete, data: { confirm: message }, class:"btn btn-xs btn-block", title: "Remove" %></td>
       </tr>
     <% end %>
   </tbody>
