@@ -6,7 +6,7 @@ class MunicipalitiesController < ApplicationController
   # GET /municipalities
   # GET /municipalities.json
   def index
-    @removed_municipalities = Municipality.all.where(active: false)
+    @removed_municipalities = Municipality.all.inactive
   end
 
   # GET /municipalities/1
@@ -64,11 +64,7 @@ class MunicipalitiesController < ApplicationController
   end
 
   def municipality_active
-    if @municipality.active
-      @municipality.update(active: false)
-    else
-      @municipality.update(active: true)
-    end
+    @municipality.update(active: !@municipality.active)
     respond_to do |format|
       format.html { redirect_to municipalities_url, notice: 'Action completed' }
       format.json { head :no_content }
@@ -135,6 +131,26 @@ class MunicipalitiesController < ApplicationController
   File.delete("public/Municipalities.xlsx")
   end
 
+  def ajax_import_municipalities
+    import_failure=true
+    municipality_hash = params[:municipalities]
+    municipality_hash.each do |key,value|
+      @municipality=Municipality.new
+      @municipality.name=value[:name]
+      @municipality.state_id=State.active.find_id_name(value[:state])
+      if !@municipality.save
+        import_failure=false
+      end
+    end
+    respond_to do |format|
+      if import_failure
+        format.html { redirect_to municipalities_url, notice: 'Import successful' }
+      else
+        format.html { redirect_to municipalities_url, notice: 'Problems importing' }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_municipality
@@ -142,11 +158,11 @@ class MunicipalitiesController < ApplicationController
     end
 
     def set_municipalities
-      @municipalities = Municipality.all.where(active: true)
+      @municipalities = Municipality.all.active
     end
 
     def set_states
-      @states = State.all.where(active:true,country_id:Country.all.where(active:true).pluck(:id))
+      @states = State.all.active.active_countries
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

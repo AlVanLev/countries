@@ -29,19 +29,19 @@ Browse..<input type="file" id="load_file" hidden onchange="$('#upload-file-info'
       var objeto_xlsx = xlsx(valor_data64);
       book = objeto_xlsx.worksheets[0].data
       message = ""
-      countries=[];
+      states=[];
       // Filas del excel
       for (var fila = 1; fila < book.length ; fila++) {
         // Columnas del excel
-        country={name:book[fila][0].value};
-        countries.push(country)
+        state={name:book[fila][0].value,country:book[fila][1].value};
+        states.push(state)
       }
       $.ajax(
         {
           type:'post',
-          url:'/ajax_import_countries',
+          url:'/ajax_import_states',
           data:{
-            countries:countries
+            states:states
           }
         }
       )

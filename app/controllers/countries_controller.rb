@@ -5,7 +5,7 @@ class CountriesController < ApplicationController
   # GET /countries
   # GET /countries.json
   def index
-    @removed_Countries = Country.all.where(active: false)
+    @removed_Countries = Country.all.inactive
   end
 
   # GET /countries/1
@@ -64,11 +64,7 @@ class CountriesController < ApplicationController
   end
 
   def country_active
-    if @country.active
-      @country.update(active: false)
-    else
-      @country.update(active: true)
-    end
+    @country.update(active: !@country.active)
     respond_to do |format|
       format.html { redirect_to countries_url, notice: 'Action completed' }
       format.json { head :no_content }
@@ -126,20 +122,23 @@ class CountriesController < ApplicationController
     File.delete("public/Countries.xlsx")
   end
 
-  def ajax_import
-    import_failure=false
+  def ajax_import_countries
+    import_failure=true
     country_hash = params[:countries]
     country_hash.each do |key,value|
+      puts (value[:name])
       @country=Country.new
       @country.name=value[:name]
       if !@country.save
-        import_failure=true
+        import_failure=false
       end
     end
-    if import_failure
-      format.html { redirect_to countries_url, notice: 'Import successful' }
-    else
-      format.html { redirect_to countries_url, notice: 'Problems importing' }
+    respond_to do |format|
+      if import_failure
+        format.html { redirect_to countries_url, notice: 'Import successful' }
+      else
+        format.html { redirect_to countries_url, notice: 'Problems importing' }
+      end
     end
   end
 
@@ -150,11 +149,11 @@ class CountriesController < ApplicationController
     end
 
     def set_countries
-      @countries = Country.all.where(active: true)
+      @countries = Country.all.active
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def country_params
-      params.require(:country).permit(:name,:active,:countries, states_attributes: [:id, :name, :_destroy])
+      params.require(:country).permit(:name,:active, states_attributes: [:id, :name, :_destroy])
     end
 end

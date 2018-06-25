@@ -6,7 +6,7 @@ class StatesController < ApplicationController
   # GET /states
   # GET /states.json
   def index
-    @removed_states = State.all.where(active: false)
+    @removed_states = State.all.inactive
   end
 
   # GET /states/1
@@ -66,11 +66,7 @@ class StatesController < ApplicationController
   end
 
   def state_active
-    if @state.active
-      @state.update(active: false)
-    else
-      @state.update(active: true)
-    end
+    @state.update(active: !@state.active)
     respond_to do |format|
       format.html { redirect_to states_url, notice: 'Action completed' }
       format.json { head :no_content }
@@ -90,7 +86,7 @@ class StatesController < ApplicationController
   end
 
   def ajax_import
-    
+
   end
 
   def download
@@ -141,6 +137,26 @@ class StatesController < ApplicationController
   File.delete("public/states.xlsx")
   end
 
+  def ajax_import_states
+    import_failure=true
+    country_hash = params[:states]
+    country_hash.each do |key,value|
+      @state=State.new
+      @state.name=value[:name]
+      @state.country_id=Country.active.find_id_name(value[:country])
+        if !@state.save
+          import_failure=false
+        end
+      end
+    respond_to do |format|
+      if import_failure
+        format.html { redirect_to states_url, notice: 'Import successful' }
+      else
+        format.html { redirect_to states_url, notice: 'Problems importing' }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_state
@@ -148,11 +164,11 @@ class StatesController < ApplicationController
     end
 
     def set_states
-      @states = State.all.where(active: true)
+      @states = State.all.active
     end
 
     def set_countries
-      @countries = Country.all.where(active: true)
+      @countries = Country.all.active
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

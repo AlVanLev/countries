@@ -5,6 +5,12 @@ class State < ApplicationRecord
   VALID_NAME_REGEX = /\A[\D]*\z/
   accepts_nested_attributes_for :municipalities, reject_if: :reject_municipalities, allow_destroy: true
   validates :name, presence: true, length: {maximum: 25}, uniqueness: {scope: :country}, format:{with: VALID_NAME_REGEX}
+
+  scope :active,->{where(active:true)}
+  scope :inactive,->{where(active:false)}
+  scope :active_countries, -> {where(country_id:Country.all.where(active:true).pluck(:id))}
+  scope :find_id_name,->(name){where(name:name).pluck(:id)}
+
   def to_s
     name
   end
