@@ -141,9 +141,10 @@ class StatesController < ApplicationController
     import_failure=true
     country_hash = params[:states]
     country_hash.each do |key,value|
+      country_id=Country.active.find_id_name(value[:country])
       @state=State.new
       @state.name=value[:name]
-      @state.country_id=Country.active.find_id_name(value[:country])
+      @state.country_id=country_id[0]
         if !@state.save
           import_failure=false
         end

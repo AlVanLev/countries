@@ -131,16 +131,19 @@ class MunicipalitiesController < ApplicationController
   File.delete("public/Municipalities.xlsx")
   end
 
+
   def ajax_import_municipalities
     import_failure=true
     municipality_hash = params[:municipalities]
     municipality_hash.each do |key,value|
+      state_id=State.active.find_id_name(value[:state])
       @municipality=Municipality.new
       @municipality.name=value[:name]
-      @municipality.state_id=State.active.find_id_name(value[:state])
-      if !@municipality.save
+      @municipality.state_id=state_id[0]
+      if @municipality.save
         import_failure=false
       end
+
     end
     respond_to do |format|
       if import_failure
