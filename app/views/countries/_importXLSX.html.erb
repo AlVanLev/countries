@@ -28,22 +28,30 @@ Browse..<input type="file" id="load_file" hidden onchange="$('#upload-file-info'
       // Crear el objeto xlsx
       var objeto_xlsx = xlsx(valor_data64);
       book = objeto_xlsx.worksheets[0].data
-
       message = ""
+      countries=[];
       // Filas del excel
-      for (var fila = 0; fila < book.length ; fila++) {
+      for (var fila = 1; fila < book.length ; fila++) {
         // Columnas del excel
         for (var columna = 0; columna < book[fila].length; columna++) {
-          console.log(book[fila][columna].value)
-          message = message + book[fila][columna].value + "\n"
+          country={name:book[fila][columna].value};
+          countries.push(country)
         }
       }
-      alert(message)
+      $.ajax(
+        {
+          type:'post',
+          url:'/ajax_import',
+          data:{
+            countries:countries
+          }
+        }
+      )
     }
 
     // El método readAsDataURL es usado para leer el contenido del
     // especificado Blob o File.
     fileReader.readAsDataURL(fileToLoad);
-  }
 
+  }
 </script>
