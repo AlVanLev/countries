@@ -58,7 +58,8 @@
       <tr>
         <td><%=state%></td>
         <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), state_active_path(state), method: :put, class:"btn btn-xs btn-block", title: "Restore"%></td>
-        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), state, method: :delete, data: { confirm: message }, class:"btn btn-xs btn-block", title: "Remove" %></td>
+        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), '#modal_delete_'+state.id.to_s, class:"btn btn-xs btn-block", title: "Remove", "data-toggle" => "modal"%></td>
+        <%=render 'states/modal_delete', state: state%>
       </tr>
       <%end%>
       <% @states.each do |state| %>
@@ -76,7 +77,8 @@
         <tr>
           <td><%= state %></td>
           <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), state_active_path(state), method: :put, class:"btn btn-xs btn-block", title: "Restore"%></td>
-          <td><%= link_to raw("<i class='fas fa-unlink'></i>"), state, method: :delete, data: { confirm: message }, class:"btn btn-xs btn-block", title: "Remove" %></td>
+          <td><%= link_to raw("<i class='fas fa-unlink'></i>"), '#modal_delete_'+state.id.to_s, class:"btn btn-xs btn-block", title: "Remove", "data-toggle" => "modal"%></td>
+          <%=render 'states/modal_delete', state: state%>
         </tr>
         <%end%>
       <% end %>

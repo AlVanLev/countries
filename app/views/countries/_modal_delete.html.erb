@@ -10,9 +10,11 @@
           <%if states.length > 0%>
             <p>Deleting this country will also delete these states:</p>
             <br>
+            <p>
             <%states.each do |state|%>
-              <p><%=state%></p>
+                <%=state%><br>
             <%end%>
+          </p>
             <br>
             <p>And their respective municipalities.</p>
           <%else%>
