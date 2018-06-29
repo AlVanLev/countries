@@ -1,0 +1,50 @@
+<button type="button" name="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#new">New <%=controller%></button>
+
+<div class="modal fade" id="new" role="dialog">
+<div class="modal-dialog">
+<div class="modal-content">
+  <div class="modal-header">
+    <h3 class="modal-title">New <%=controller%></h3>
+  </div>
+  <div class="modal-body">
+    <%= form_with url: add_path do |form| %>
+      <%= form.label :name %>
+      <%= form.text_field :name, class:"form-control" %>
+
+      <%if controller=='state'%>
+        <%= form.label :country_id, "Select Country" %>
+        <%= form.collection_select(:country_id, @countries, :id, :name,{promp:''}, {class: 'form-control'}) %>
+      <%end%>
+
+      <%if controller=='municipality'%>
+        <%= form.label :state_id, "Select State" %>
+        <%= form.collection_select(:state_id, @states, :id, :name,{promp:''}, {class: 'form-control'}) %>
+      <%end%>
+      
+      <br>
+      <table width="100%">
+        <tr>
+          <td width="50%">
+            <p class="left">
+              <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+            </p>
+          </td>
+          <td width="50%">
+            <p class="right">
+              <%= form.submit 'Add new '+controller, class:"btn btn-success btn-sm"%>
+            </p>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+$("input[id='name']").keydown(function(event){
+  if (event.which >47 && event.which < 58 || event.which >95 && event.which < 106){
+      return false;
+    }
+  });
+</script>

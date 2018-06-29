@@ -1,0 +1,7 @@
+<tr>
+  <td><%= municipality %></td>
+  <td><%= state %></td>
+  <td><%= link_to raw("<i class='fas fa-search'></i>"), municipality, class:"btn btn-xs btn-block", title: "Show" %></td>
+  <td><%= link_to raw("<i class='fas fa-pencil-alt'></i>"), edit_municipality_path(municipality), class:"btn btn-xs btn-block", title: "Edit"  %></td>
+  <td><%= link_to raw("<i class='fas fa-trash'></i>"), municipality_active_url(municipality), method: :put, class:"btn btn-xs btn-block", title: "Remove", remote: true  %></td>
+</tr>

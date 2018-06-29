@@ -1,0 +1,6 @@
+<tr id="tr_<%=country.id%>">
+  <td><%= country %></td>
+  <td><%= link_to raw("<i class='fas fa-search'></i>"), country, class:"btn btn-xs btn-block", title: "Show"%></td>
+  <td><%= link_to raw("<i class='fas fa-pencil-alt'></i>"), edit_country_path(country), class:"btn btn-xs btn-block", title: "Edit" %></td>
+  <td><%= link_to raw("<i class='fas fa-trash'></i>"), switch_active_country_path(country), method: :put, class:"btn btn-xs btn-block", title: "Remove", remote:true %></td>
+</tr>

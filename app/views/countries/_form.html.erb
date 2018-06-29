@@ -1,40 +1,18 @@
-<%= form_with(model: country, local: true) do |form| %>
-  <% if country.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(country.errors.count, "error") %> prohibited this country from being saved:</h2>
-      <ul>
-      <% country.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, class:"form-control" %>
-  </div>
-  <%= form.fields_for :states, form.object.states.where(active: true) do | state | %>
-    <div class="">
-      <div class="fields">
-        <br>
-        <%= state.label :name, "State" %>
-        <%= state.text_field :name, class:"form-control" %>
-        <%= state.check_box :_destroy %> Delete
-      </div>
-    </div>
+<%= form_with model: @country, local: true do |form| %>
+  <%=render 'shared/error_messages', object: form.object%>
+  <%= form.label :name %>
+  <%= form.text_field :name, class:"form-control" %>
+  <%= form.fields_for :states, form.object.states.active do | state | %>
+      <br>
+      <%= state.label :name, "State" %>
+      <%= state.text_field :name, class:"form-control" %>
+      <%= state.check_box :_destroy %> Delete
   <% end %>
   <%= form.fields_for :states, form.object.states.last do | state | %>
-    <div class="">
-      <div class="fields">
-        <br>
-        <%= state.label :name, "New State" %>
-        <%= state.text_field :name, class:"form-control" %>
-      </div>
-    </div>
+      <br>
+      <%= state.label :name, "New State" %>
+      <%= state.text_field :name, class:"form-control" %>
   <% end %>
-  <div class="actions">
-    <br>
-    <%= form.submit class:"btn btn-info btn-sm"%>
-  </div>
+  <br>
+  <%= form.submit class:"btn btn-info btn-sm"%>
 <% end %>

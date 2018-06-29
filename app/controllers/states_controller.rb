@@ -1,5 +1,5 @@
 class StatesController < ApplicationController
-  before_action :set_state, only: [:show, :edit, :update, :destroy, :state_active]
+  before_action :set_state, only: [:show, :edit, :update, :destroy, :switch_active]
   before_action :set_states, only: [:index, :download]
   before_action :set_countries, only:[:new,:edit,:index]
 
@@ -34,6 +34,7 @@ class StatesController < ApplicationController
       if @state.save
         format.html { redirect_to @state, notice: 'State was successfully created.' }
         format.json { render :show, status: :created, location: @state }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @state.errors, status: :unprocessable_entity }
@@ -62,18 +63,20 @@ class StatesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to states_url, notice: 'State removed' }
       format.json { head :no_content }
+      format.js
     end
   end
 
-  def state_active
+  def switch_active
     @state.update(active: !@state.active)
     respond_to do |format|
       format.html { redirect_to states_url, notice: 'Action completed' }
       format.json { head :no_content }
+      format.js
     end
   end
 
-  def new_state
+  def add
     @state=State.new
     @state.name=params[:name]
     @state.country_id=params[:country]
@@ -90,57 +93,57 @@ class StatesController < ApplicationController
   end
 
   def download
-  #Crea un excel en la carpeta public
-  workbook  = WriteXLSX.new('public/states.xlsx')
-  worksheet = workbook.add_worksheet
+    #Crea un excel en la carpeta public
+    workbook  = WriteXLSX.new('public/states.xlsx')
+    worksheet = workbook.add_worksheet
 
 
-  header_format = workbook.add_format(font: "Arial", size: 12, align: "center")
-  header_format.set_text_wrap()
-  header_format.set_bold
-  header_format.set_bg_color("#DFF0D8")
-  header_format.set_color("#008857")
-  data_format = workbook.add_format(font: "Arial", size: 12, align: "right", italic: true, color: "#5588ff", text_wrap: true)
+    header_format = workbook.add_format(font: "Arial", size: 12, align: "center")
+    header_format.set_text_wrap()
+    header_format.set_bold
+    header_format.set_bg_color("#DFF0D8")
+    header_format.set_color("#008857")
+    data_format = workbook.add_format(font: "Arial", size: 12, align: "right", italic: true, color: "#5588ff", text_wrap: true)
 
 
-  worksheet.set_column('A:A', 45)
-  worksheet.set_column('B:B', 45)
-  worksheet.set_column('C:C', 45)
+    worksheet.set_column('A:A', 45)
+    worksheet.set_column('B:B', 45)
+    worksheet.set_column('C:C', 45)
 
-  #Encabezados
-  #(fila , columna, encabezado)
-  worksheet.write(0, 0, ' State ',header_format)
-  worksheet.write(0, 1, ' Country ',header_format)
+    #Encabezados
+    #(fila , columna, encabezado)
+    worksheet.write(0, 0, 'State',header_format)
+    worksheet.write(0, 1, 'Country',header_format)
 
 
-  #Indices
-  fila = 1
-  columna = 0
+    #Indices
+    fila = 1
+    columna = 0
 
-  #Escribe los datos de la bdd
-  @states.each do |state|
-    worksheet.write(fila, columna       , state.name,data_format )
-    worksheet.write(fila, columna+1       , Country.where(id: state.country_id).pluck(:name).to_sentence,data_format )
-    #Avanza una fila
-    fila += 1
-  end
+    #Escribe los datos de la bdd
+    @states.each do |state|
+      worksheet.write(fila, columna       , state.name,data_format )
+      worksheet.write(fila, columna+1       , Country.where(id: state.country_id).pluck(:name).to_sentence,data_format )
+      #Avanza una fila
+      fila += 1
+    end
 
-  #Cierra el archivo
-  workbook.close()
+    #Cierra el archivo
+    workbook.close()
 
-  #descarga el archivo
-  File.open("public/states.xlsx", "r") do |f|
-   send_data f.read, :filename => "states.xlsx", type: "application/xlsx"
-  end
+    #descarga el archivo
+    File.open("public/states.xlsx", "r") do |f|
+     send_data f.read, :filename => "states.xlsx", type: "application/xlsx"
+    end
 
-  #Elimina el archivo de la carpet public
-  File.delete("public/states.xlsx")
+    #Elimina el archivo de la carpet public
+    File.delete("public/states.xlsx")
   end
 
   def ajax_import_states
     import_failure=true
-    country_hash = params[:states]
-    country_hash.each do |key,value|
+    state_hash = params[:hash]
+    state_hash.each do |key,value|
       country_id=Country.active.find_id_name(value[:country])
       @state=State.new
       @state.name=value[:name]

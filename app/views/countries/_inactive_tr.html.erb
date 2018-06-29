@@ -1,0 +1,7 @@
+<tr id="tr_<%=country.id%>">
+  <td><%= country%></td>
+  <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), switch_active_country_path(country), method: :put, class:"btn btn-xs btn-block", title: "Restore", remote:true %></td>
+  <td><%= link_to raw("<i class='fas fa-unlink'></i>"), '#country_modal_delete_'+country.id.to_s, class:"btn btn-xs btn-block", title: "Remove", "data-toggle" => "modal"%>
+    <%=render 'shared/modal_delete', data: country, controller:'country'%>
+  </td>
+</tr>

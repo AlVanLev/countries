@@ -1,0 +1,6 @@
+<tr>
+  <td><%=municipality%></td>
+  <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), municipality_active_url(municipality), method: :put, class:"btn btn-xs btn-block", title: "Restore", remote: true %></td>
+  <td><%= link_to raw("<i class='fas fa-unlink'></i>"), '#municipality_modal_delete_'+municipality.id.to_s, class:"btn btn-xs btn-block", title: "Remove", "data-toggle" => "modal"%></td>
+  <%=render 'shared/modal_delete', data: municipality, controller:'municipality'%>
+</tr>

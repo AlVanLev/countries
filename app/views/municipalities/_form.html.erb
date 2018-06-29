@@ -1,27 +1,12 @@
-<%= form_with(model: municipality, local: true) do |form| %>
-  <% if municipality.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(municipality.errors.count, "error") %> prohibited this municipality from being saved:</h2>
+<%= form_for(@municipality) do |form| %>
+  <%=render 'shared/error_messages', object: form.object%>
 
-      <ul>
-      <% municipality.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= form.label :name %>
+  <%= form.text_field :name, class:"form-control"%>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, class:"form-control"%>
-  </div>
+  <%= form.label :state_id, "Select State" %>
+  <%= form.collection_select(:state_id, @states, :id, :name,{promp:''}, {class: 'form-control'}) %>
 
-  <div class="field">
-    <%= form.label :state_id, "Select State" %>
-    <%= form.collection_select(:state_id, @states, :id, :name,{promp:''}, {class: 'form-control'}) %>
-  </div>
+  <%= form.submit class:"btn btn-info btn-sm" %>
 
-  <div class="actions">
-    <%= form.submit class:"btn btn-info btn-sm" %>
-  </div>
 <% end %>

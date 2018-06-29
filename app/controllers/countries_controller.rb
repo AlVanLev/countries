@@ -1,5 +1,5 @@
 class CountriesController < ApplicationController
-  before_action :set_country, only: [:show, :edit, :update, :destroy, :country_active]
+  before_action :set_country, only: [:show, :edit, :update, :destroy, :switch_active]
   before_action :set_countries, only: [:index, :download]
 
   # GET /countries
@@ -15,7 +15,7 @@ class CountriesController < ApplicationController
 
   # GET /countries/new
   def new
-    @country[i] = Country.new
+    @country = Country.new
     @country.states.build
   end
 
@@ -60,23 +60,26 @@ class CountriesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to countries_url, notice: 'Country removed' }
       format.json { head :no_content }
+      format.js
     end
   end
 
-  def country_active
+  def switch_active
     @country.update(active: !@country.active)
     respond_to do |format|
       format.html { redirect_to countries_url, notice: 'Action completed' }
       format.json { head :no_content }
+      format.js
     end
   end
 
-  def new_country
+  def add
     @country=Country.new
     @country.name=params[:name]
     if @country.save
       respond_to do |format|
-        format.json { render json: @country }
+        format.html { redirect_to countries_url, notice: 'Action completed' }
+        format.json { head :no_content }
         format.js
       end
     else
@@ -87,7 +90,7 @@ class CountriesController < ApplicationController
 
   def download
     #Crea un excel en la carpeta public
-    workbook  = WriteXLSX.new('public/Countries.xlsx')
+    workbook  = WriteXLSX.new('public/countries.xlsx')
     worksheet = workbook.add_worksheet
 
     header_format = workbook.add_format(font: "Arial", size: 12, align: "center")
@@ -102,7 +105,7 @@ class CountriesController < ApplicationController
     worksheet.set_column('C:C', 45)
     #Encabezados
     #(fila , columna, encabezado)
-    worksheet.write(0, 0, ' Country ',header_format)
+    worksheet.write(0, 0, 'Country',header_format)
     #Indices
     fila = 1
     columna = 0
@@ -124,7 +127,7 @@ class CountriesController < ApplicationController
 
   def ajax_import_countries
     import_failure=true
-    country_hash = params[:countries]
+    country_hash = params[:hash]
     country_hash.each do |key,value|
       puts (value[:name])
       @country=Country.new

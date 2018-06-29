@@ -1,0 +1,11 @@
+$('tr[id="tr_<%=@country.id%>"]').fadeOut(200,function(){
+  $(this).remove();
+  console.log(<%=@country.active%>)
+  if (<%=@country.active%>) {
+    $("#countries").append('<%= j render "active_tr", country:@country%>');
+  }
+  else {
+    $("#inactive_countries").append('<%= j render "inactive_tr", country:@country%>');
+    $(this).append('<%=j render "shared/modal_delete", data: @country, controller:"country"%>')
+  }
+});

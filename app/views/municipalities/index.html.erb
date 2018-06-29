@@ -1,9 +1,9 @@
 <% provide(:title,"Municipalities") %>
 <p id="notice"><%= notice %></p>
 <h1><i class="far fa-building"></i>  Municipalities</h1>
-<button type="button" name="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#new">New Municipality</button>
+<%=render 'shared/modal_new', controller: 'municipality'%>
 <br>
-<%=render 'municipalities/importXLSX'%>
+<%=render 'shared/importXLSX', controller:'municipalities'%>
 <ul class="nav nav-tabs">
   <br>
   <li class="active"><a data-toggle="tab" href="#active">Active</a></li>
@@ -24,13 +24,7 @@
       <% @municipalities.each do |municipality| %>
       <%state=State.where(id:municipality.state_id,active:true,country_id:Country.where(active:true).pluck(:id)).pluck(:name).to_sentence%>
       <%if state!=""%>
-      <tr>
-        <td><%= municipality %></td>
-        <td><%= state %></td>
-        <td><%= link_to raw("<i class='fas fa-search'></i>"), municipality, class:"btn btn-xs btn-block", title: "Show" %></td>
-        <td><%= link_to raw("<i class='fas fa-pencil-alt'></i>"), edit_municipality_path(municipality), class:"btn btn-xs btn-block", title: "Edit"  %></td>
-        <td><%= link_to raw("<i class='fas fa-trash'></i>"), municipality_active_url(municipality), method: :put, class:"btn btn-xs btn-block", title: "Remove"  %></td>
-      </tr>
+      <%=render 'active_tr', municipality: municipality%>
       <%end%>
       <% end %>
     </tbody>
@@ -46,24 +40,12 @@
     </thead>
     <tbody>
       <% @removed_municipalities.each do |municipality| %>
-      <%message='About to delete the municipality '+municipality.name+' Are you sure?'%>
-      <tr>
-        <td><%=municipality%></td>
-        <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), municipality_active_url(municipality), method: :put, class:"btn btn-xs btn-block", title: "Restore" %></td>
-        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), '#modal_delete_'+municipality.id.to_s, class:"btn btn-xs btn-block", title: "Remove", "data-toggle" => "modal"%></td>
-        <%=render 'municipalities/modal_delete', municipality: municipality%>
-      </tr>
+      <%= render 'inactive_tr', municipality: municipality%>
       <%end%>
       <% @municipalities.each do |municipality| %>
-      <%message='About to delete the municipality '+municipality.name+' Are you sure?'%>
       <%state=State.where(id:municipality.state_id,active:true,country_id:Country.where(active:true).pluck(:id)).pluck(:name).to_sentence%>
       <%if state==""%>
-      <tr>
-        <td><%= municipality %></td>
-        <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), municipality_active_url(municipality), method: :put, class:"btn btn-xs btn-block", title: "Restore" %></td>
-        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), '#modal_delete_'+municipality.id.to_s, class:"btn btn-xs btn-block", title: "Remove", "data-toggle" => "modal"%></td>
-        <%=render 'municipalities/modal_delete', municipality: municipality%>
-      </tr>
+      <%= render 'inactive_tr', municipality: municipality%>
       <%end%>
       <% end %>
     </tbody>
@@ -76,4 +58,3 @@
 <%= link_to 'New Municipality', new_municipality_path, class: 'btn btn-xs' %> |
 <%= link_to 'Back', root_path, class: 'btn btn-xs' %> |
 <%= link_to 'Excel', download_municipalities_path ,target: '_blank', class: 'btn btn-xs' %>
-<%=render 'municipalities/modal_new'%>

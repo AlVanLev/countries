@@ -1,0 +1,4 @@
+$('div[id="country_modal_delete_<%=@country.id%>"]').modal('hide');
+$('tr[id="tr_<%=@country.id%>"]').fadeOut(200,function(){
+  $(this).remove();
+});
