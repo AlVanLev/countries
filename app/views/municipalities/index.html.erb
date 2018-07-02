@@ -22,9 +22,7 @@
 
     <tbody id="municipalities">
       <% @municipalities.each do |municipality| %>
-      <%if state(municipality) !=""%>
       <%=render 'active_tr', municipality: municipality%>
-      <%end%>
       <% end %>
     </tbody>
   </table>
@@ -41,11 +39,6 @@
       <% @removed_municipalities.each do |municipality| %>
       <%= render 'inactive_tr', municipality: municipality%>
       <%end%>
-      <% @municipalities.each do |municipality| %>
-      <%if state(municipality) == ""%>
-      <%= render 'inactive_tr', municipality: municipality%>
-      <%end%>
-      <% end %>
     </tbody>
   </table>
 </div>

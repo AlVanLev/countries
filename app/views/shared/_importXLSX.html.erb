@@ -1,9 +1,4 @@
 <br>
-<%puts ('---------------------------------------------------------------')%>
-<%puts ('---------------------------------------------------------------')%>
-<%puts (controller.class)%>
-<%puts ('---------------------------------------------------------------')%>
-<%puts ('---------------------------------------------------------------')%>
 <label class="btn btn-primary btn-sm">
 Browse..<input type="file" id="load_file" hidden onchange="$('#upload-file-info').html(this.files[0].name)">
 </label>
@@ -43,6 +38,8 @@ Browse..<input type="file" id="load_file" hidden onchange="$('#upload-file-info'
       if (controller+'.xlsx'==fileToLoad.name) {
         if (book[0][0].value=='State' && book[0][1].value=='Country') {
           for (var fila = 1; fila < book.length ; fila++) {
+            console.log(book[fila][0].value);
+            console.log(book[fila][1].value);
             // Columnas del excel
             data={name:book[fila][0].value,country:book[fila][1].value};
             hash.push(data)

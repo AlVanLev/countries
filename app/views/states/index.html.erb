@@ -22,9 +22,7 @@
   </thead>
   <tbody id='states'>
     <% @states.each do |state| %>
-      <%if country(state)!="" %>
-          <%=render 'active_tr', state: state%>
-      <%end%>
+        <%=render 'active_tr', state: state%>
     <% end %>
   </tbody>
 </table >
@@ -41,11 +39,6 @@
       <%@removed_states.each do |state|%>
         <%= render 'inactive_tr', state:state%>
       <%end%>
-      <% @states.each do |state| %>
-      <%if country(state)=="" %>
-        <%= render 'inactive_tr', state:state%>
-        <%end%>
-      <% end %>
     </tbody>
   </table>
 </div>

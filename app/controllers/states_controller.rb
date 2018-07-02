@@ -88,10 +88,6 @@ class StatesController < ApplicationController
     end
   end
 
-  def ajax_import
-
-  end
-
   def download
     #Crea un excel en la carpeta public
     workbook  = WriteXLSX.new('public/states.xlsx')

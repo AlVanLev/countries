@@ -7,7 +7,7 @@ class State < ApplicationRecord
   validates :name, presence: true, length: {maximum: 25}, uniqueness: {scope: :country}, format:{with: VALID_NAME_REGEX}
 
   scope :active,->{where(active:true,country_id: Country.all.active.pluck(:id))}
-  scope :inactive,->{where(active:false)}
+  scope :inactive,->{where(active:false).or(where(country_id: Country.all.inactive.pluck(:id)))}
   scope :find_id_name,->(name){where(name:name).pluck(:id)}
 
   def to_s
