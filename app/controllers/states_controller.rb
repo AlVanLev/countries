@@ -76,10 +76,10 @@ class StatesController < ApplicationController
     end
   end
 
-  def add
+  def add_state
     @state=State.new
     @state.name=params[:name]
-    @state.country_id=params[:country]
+    @state.country_id=params[:country_id]
     if @state.save
       respond_to do |format|
         format.json {render json:@state, :include => {:country => {:only => :name}}}

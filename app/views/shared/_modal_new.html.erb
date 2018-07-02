@@ -7,7 +7,7 @@
     <h3 class="modal-title">New <%=controller%></h3>
   </div>
   <div class="modal-body">
-    <%= form_with url: add_path do |form| %>
+    <%= form_with url: url do |form| %>
       <%= form.label :name %>
       <%= form.text_field :name, class:"form-control" %>
 
@@ -20,7 +20,7 @@
         <%= form.label :state_id, "Select State" %>
         <%= form.collection_select(:state_id, @states, :id, :name,{promp:''}, {class: 'form-control'}) %>
       <%end%>
-      
+
       <br>
       <table width="100%">
         <tr>

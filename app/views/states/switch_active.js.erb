@@ -1,0 +1,10 @@
+$('tr[id="tr_<%=@state.id%>"]').fadeOut(200,function(){
+  $(this).remove();
+  if (<%=@state.active%>) {
+    $("#states").append('<%= j render "active_tr", state:@state%>');
+  }
+  else {
+    $("#inactive_states").append('<%= j render "inactive_tr", state:@state%>');
+    $(this).append('<%=j render "shared/modal_delete", data: @state, controller:"state"%>')
+  }
+});

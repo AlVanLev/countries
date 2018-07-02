@@ -73,7 +73,7 @@ class CountriesController < ApplicationController
     end
   end
 
-  def add
+  def add_country
     @country=Country.new
     @country.name=params[:name]
     if @country.save

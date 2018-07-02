@@ -1,7 +1,7 @@
 <% provide(:title,"Municipalities") %>
 <p id="notice"><%= notice %></p>
 <h1><i class="far fa-building"></i>  Municipalities</h1>
-<%=render 'shared/modal_new', controller: 'municipality'%>
+<%=render 'shared/modal_new', controller: 'municipality', url: add_municipality_path %>
 <br>
 <%=render 'shared/importXLSX', controller:'municipalities'%>
 <ul class="nav nav-tabs">
@@ -22,8 +22,7 @@
 
     <tbody id="municipalities">
       <% @municipalities.each do |municipality| %>
-      <%state=State.where(id:municipality.state_id,active:true,country_id:Country.where(active:true).pluck(:id)).pluck(:name).to_sentence%>
-      <%if state!=""%>
+      <%if state(municipality) !=""%>
       <%=render 'active_tr', municipality: municipality%>
       <%end%>
       <% end %>
@@ -38,13 +37,12 @@
         <th colspan="2" class="center">Actions</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="inactive_municipalities">
       <% @removed_municipalities.each do |municipality| %>
       <%= render 'inactive_tr', municipality: municipality%>
       <%end%>
       <% @municipalities.each do |municipality| %>
-      <%state=State.where(id:municipality.state_id,active:true,country_id:Country.where(active:true).pluck(:id)).pluck(:name).to_sentence%>
-      <%if state==""%>
+      <%if state(municipality) == ""%>
       <%= render 'inactive_tr', municipality: municipality%>
       <%end%>
       <% end %>

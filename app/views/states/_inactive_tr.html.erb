@@ -1,0 +1,7 @@
+<tr id="tr_<%=state.id%>">
+  <td><%= state %></td>
+  <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), switch_active_state_path(state), method: :put, class:"btn btn-xs btn-block", title: "Restore", remote:true%></td>
+  <td><%= link_to raw("<i class='fas fa-unlink'></i>"), '#state_modal_delete_'+state.id.to_s, class:"btn btn-xs btn-block", title: "Remove", "data-toggle" => "modal"%>
+    <%=render 'shared/modal_delete', data: state, controller:'state'%>
+  </td>
+</tr>

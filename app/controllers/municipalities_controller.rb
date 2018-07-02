@@ -73,10 +73,10 @@ class MunicipalitiesController < ApplicationController
     end
   end
 
-  def add
+  def add_municipality
     @municipality=Municipality.new
     @municipality.name=params[:name]
-    @municipality.state_id=params[:state]
+    @municipality.state_id=params[:state_id]
     if @municipality.save
       respond_to do |format|
         format.json {render json:@municipality,:include => {:state =>{:only => :name}}}
@@ -166,7 +166,7 @@ class MunicipalitiesController < ApplicationController
     end
 
     def set_states
-      @states = State.all.active.active_countries
+      @states = State.all.active
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

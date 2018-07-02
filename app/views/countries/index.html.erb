@@ -1,7 +1,7 @@
 <% provide(:title,"Countries") %>
 <p id="notice"><%= notice %></p>
 <h1><i class="far fa-flag"></i>  Countries</h1>
-<%=render 'shared/modal_new', controller: 'country'%>
+<%=render 'shared/modal_new', controller: 'country', url: add_country_path %>
 <br>
 <%=render 'shared/importXLSX', controller: 'countries'%>
 <ul class="nav nav-tabs">

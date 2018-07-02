@@ -1,0 +1,4 @@
+$('div[id="state_modal_delete_<%=@state.id%>"]').modal('hide');
+$('tr[id="tr_<%=@state.id%>"]').fadeOut(200,function(){
+  $(this).remove();
+});

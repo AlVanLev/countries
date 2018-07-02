@@ -1,0 +1,10 @@
+$('tr[id="tr_<%=@municipality.id%>"]').fadeOut(200,function(){
+  $(this).remove();
+  if (<%=@municipality.active%>) {
+    $("#municipalities").append('<%= j render "active_tr", municipality:@municipality%>');
+  }
+  else {
+    $("#inactive_municipalities").append('<%= j render "inactive_tr", municipality:@municipality%>');
+    $(this).append('<%=j render "shared/modal_delete", data: @municipality, controller:"municipality"%>')
+  }
+});

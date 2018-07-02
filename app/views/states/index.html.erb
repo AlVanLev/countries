@@ -1,8 +1,7 @@
-
 <% provide(:title,"States") %>
 <p id="notice"><%= notice %></p>
 <h1><i class="far fa-map"></i>  States</h1>
-<button type="button" name="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#new">New State</button>
+<%=render 'shared/modal_new', controller: 'state', url: add_state_path %>
 <br>
 <%=render 'shared/importXLSX', controller:'states'%>
 <ul class="nav nav-tabs">
@@ -23,15 +22,8 @@
   </thead>
   <tbody id='states'>
     <% @states.each do |state| %>
-    <% country=Country.where(id: state.country_id, active:true).pluck(:name).to_sentence %>
-    <%if country!="" %>
-      <tr>
-        <td><%= state %></td>
-        <td><%= country %></td>
-        <td><%= link_to raw("<i class='fas fa-search'></i>"),  state, class:"btn btn-xs btn-block", title: "Show" %></td>
-        <td><%= link_to raw("<i class='fas fa-pencil-alt'></i>"),  edit_state_path(state), class:"btn btn-xs btn-block", title: "Edit"  %></td>
-        <td><%= link_to raw("<i class='fas fa-trash'></i>"),  state_active_path(state), method: :put, class:"btn btn-xs btn-block", title: "Remove"  %></td>
-      </tr>
+      <%if country(state)!="" %>
+          <%=render 'active_tr', state: state%>
       <%end%>
     <% end %>
   </tbody>
@@ -45,42 +37,13 @@
         <th colspan="2" class="center">Actions</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="inactive_states">
       <%@removed_states.each do |state|%>
-      <%municipalityWarning=""%>
-      <%municipalities=(Municipality.where(state_id:state.id).pluck(:name))%>
-      <%if municipalities.length > 0%>
-      <%municipalityWarning='Deleting this state will also delete these municipalities:'+"\n"%>
-      <%municipalities.each do |municipality|%>
-      <%municipalityWarning+="\n   "+municipality%>
-      <%end%>
-      <%end%>
-      <%message='About to delete the state '+state.name+' Are you sure?'+"\n\n"+municipalityWarning%>
-      <tr>
-        <td><%=state%></td>
-        <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), state_active_path(state), method: :put, class:"btn btn-xs btn-block", title: "Restore"%></td>
-        <td><%= link_to raw("<i class='fas fa-unlink'></i>"), '#state_modal_delete_'+state.id.to_s, class:"btn btn-xs btn-block", title: "Remove", "data-toggle" => "modal"%></td>
-        <%=render 'shared/modal_delete', data: state, controller:'state'%>
-      </tr>
+        <%= render 'inactive_tr', state:state%>
       <%end%>
       <% @states.each do |state| %>
-      <%municipalityWarning=""%>
-      <%municipalities=(Municipality.where(state_id:state.id).pluck(:name))%>
-      <%if municipalities.length > 0%>
-      <%municipalityWarning='Deleting this state will also delete these municipalities:'+"\n"%>
-      <%municipalities.each do |municipality|%>
-      <%municipalityWarning+="\n   "+municipality%>
-      <%end%>
-      <%end%>
-      <%message='About to delete the state '+state.name+' Are you sure?'+"\n\n"+municipalityWarning%>
-      <% country=Country.where(id: state.country_id, active:false).pluck(:name).to_sentence %>
-      <%if country!="" %>
-        <tr>
-          <td><%= state %></td>
-          <td><%= link_to raw("<i class='fas fa-undo-alt'></i>"), state_active_path(state), method: :put, class:"btn btn-xs btn-block", title: "Restore"%></td>
-          <td><%= link_to raw("<i class='fas fa-unlink'></i>"), '#state_modal_delete_'+state.id.to_s, class:"btn btn-xs btn-block", title: "Remove", "data-toggle" => "modal"%></td>
-          <%=render 'shared/modal_delete', data: state, controller:'state'%>
-        </tr>
+      <%if country(state)=="" %>
+        <%= render 'inactive_tr', state:state%>
         <%end%>
       <% end %>
     </tbody>
@@ -92,4 +55,3 @@
 <%= link_to 'New State', new_state_path, class: 'btn btn-xs'%> |
 <%= link_to 'Back', root_path, class: 'btn btn-xs' %> |
 <%= link_to 'Excel', download_states_path ,target: '_blank', class: 'btn btn-xs' %>
-<%=render 'modal_new'%>
